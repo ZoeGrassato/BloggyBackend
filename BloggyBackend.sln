@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29905.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BloggyBackend", "BloggyBackend\BloggyBackend.csproj", "{B88EB3F8-76F3-4A96-96C4-A3A8CF9993A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BloggyBackend", "BloggyBackend\BloggyBackend.csproj", "{B88EB3F8-76F3-4A96-96C4-A3A8CF9993A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csproj", "{E856B057-5ECD-4D4B-BCAE-B862C8BB7C82}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "Models\Models.csproj", "{E856B057-5ECD-4D4B-BCAE-B862C8BB7C82}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{E9B6FE68-304D-4768-919F-E38A3C9A2883}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{E9B6FE68-304D-4768-919F-E38A3C9A2883}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Generics", "Generics\Generics.csproj", "{E2438C36-A5B1-461B-981F-91BB68EDFDBB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Generics", "Generics\Generics.csproj", "{E2438C36-A5B1-461B-981F-91BB68EDFDBB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoMapper", "AutoMapper\AutoMapper.csproj", "{72F39A0C-C26E-4368-8142-7020B946F6B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{E2438C36-A5B1-461B-981F-91BB68EDFDBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E2438C36-A5B1-461B-981F-91BB68EDFDBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E2438C36-A5B1-461B-981F-91BB68EDFDBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72F39A0C-C26E-4368-8142-7020B946F6B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72F39A0C-C26E-4368-8142-7020B946F6B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72F39A0C-C26E-4368-8142-7020B946F6B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72F39A0C-C26E-4368-8142-7020B946F6B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

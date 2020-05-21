@@ -8,5 +8,6 @@ namespace Models
     {
         public string ParagraphTextArea { get; set; }
         public Guid ParagraphId { get; set; }
+        public Guid SectionId { get; set; }
     }
 }
