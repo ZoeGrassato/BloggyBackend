@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AutoMapper\AutoMapper.csproj" />
     <ProjectReference Include="..\Generics\Generics.csproj" />
   </ItemGroup>
 

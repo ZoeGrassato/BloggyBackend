@@ -1,4 +1,5 @@
-﻿using BloggyBackend.Models;
+﻿using AutoMapper;
+using BloggyBackend.Models;
 using Models;
 using Models.Mapping;
 using Newtonsoft.Json;
@@ -6,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AutoMapper
+namespace AutoMappingLogic
 {
     public class BlogArticleAutoMapper
     {

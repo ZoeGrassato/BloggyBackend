@@ -7,9 +7,9 @@ namespace Generics
 {
     public interface IBlogService
     {
-        List<BlogArticle> GetBlogArticles(Func<List<BlogArticle>, bool> customFunc);
+        List<BlogArticle> GetBlogArticles(Func<List<BlogArticle>, bool> customFunc = null);
         void Add(BlogArticle blogArticle);
         void Update(BlogArticle blogArticle, Guid blogArticleId);
-        void Delete(BlogArticle blogArticle);
+        void Delete(Guid blogArticleId);
     }
 }

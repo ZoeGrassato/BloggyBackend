@@ -37,10 +37,15 @@ namespace Services
             _dbConnnection.DeleteBlogArticle(blogArticleId);
         }
 
-        public List<BlogArticle> GetBlogArticles(Func<List<BlogArticle>, bool> customFunc)
+        public List<BlogArticle> GetBlogArticles(Func<List<BlogArticle>, bool> customFunc = null)
         {
-            var items = _dbConnnection.GetA
-            return null;
+            var items = _dbConnnection.GetAll<BlogArticle>(customFunc);
+            return items;
+        }
+
+        public void Update(BlogArticle blogArticle, Guid blogArticleId)
+        {
+            _dbConnnection.UpdateItem(blogArticleId, blogArticle);
         }
     }
 }

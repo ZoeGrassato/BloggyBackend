@@ -58,7 +58,7 @@ namespace Services
             }
         }
 
-        public List<T> GetAll<T>(Expression<Func<T, bool>> query = null)
+        public List<T> GetAll<T>(Func<List<T>, bool> query = null)
         {
             string connectionString = "User ID = root;Password = unearth_Anubis5;Host = localhost; Port = 5432;Database = BloggyData;Pooling = true;Min Pool Size = 0;Max Pool Size = 100;Connection Lifetime = 0;";
             using (var connection = new NpgsqlConnection(connectionString))
@@ -67,6 +67,15 @@ namespace Services
             }
 
             return null;
+        }
+
+        public void UpdateItem(Guid blogArticleId, BlogArticle blogArticle)
+        {
+            string connectionString = "User ID = root;Password = unearth_Anubis5;Host = localhost; Port = 5432;Database = BloggyData;Pooling = true;Min Pool Size = 0;Max Pool Size = 100;Connection Lifetime = 0;";
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+
+            }
         }
     }
 }

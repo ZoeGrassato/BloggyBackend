@@ -14,7 +14,8 @@ namespace Generics
         void AddParagraphs(List<Paragraph> paragraphs);
         void AddImages(List<Image> images);
         void DeleteBlogArticle(Guid BlogArticleId);
-        List<T> GetAll<T>(Expression<Func<T, bool>> query = null);
+        List<T> GetAll<T>(Func<List<T>, bool> query = null);
+        void UpdateItem(Guid blogArticleId, BlogArticle blogArticle);
     }
 
 }
