@@ -3,6 +3,7 @@ using Generics;
 using Models;
 using Models.Mapping;
 using Newtonsoft.Json;
+using Services.Mapping;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,23 +12,24 @@ namespace Services
 {
     public class BlogService : IBlogService
     {
-        private BlogArticleAutoMapper _autoMapper;
+        private JsonMapping _jsonMapping;
         private IDbConnection _dbConnnection;
         public BlogService()
         {
-            _autoMapper = new BlogArticleAutoMapper();
+            _jsonMapping = new JsonMapping();
             _dbConnnection = new DbConnection();
         }
         public void Add(BlogArticle blogArticle)
         {
-            var mappedBlogArticleItem = _autoMapper.MapToBlogArticleJson(blogArticle);
+            var mappedBlogArticleItem = _jsonMapping.MapToBlogArticleJson(blogArticle);
             _dbConnnection.AddBlogArticle(mappedBlogArticleItem);
 
             var mappedSections = new List<SectionJson>();
             foreach (var item in blogArticle.Sections)
             {
-                mappedSections.Add(_autoMapper.MapToSectionJson(item));
-                _dbConnnection.AddParagraphs(item.Paragraphs);
+                Guid blogArticleId;
+                mappedSections.Add(_jsonMapping.MapToSectionJson(item));
+                _dbConnnection.AddParagraphs(item.Paragraphs, ref blogArticleId);
                 _dbConnnection.AddImages(item.Images);
             }
             _dbConnnection.AddSections(mappedSections);

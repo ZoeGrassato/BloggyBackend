@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BloggyBackend.AutoMapper;
 using BloggyBackend.Models;
-using Generics;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Services;
 
 namespace BloggyBackend.Controllers
 {
@@ -13,26 +13,25 @@ namespace BloggyBackend.Controllers
     [ApiController]
     public class BlogArticleController : ControllerBase
     {
-        private IBlogService _blogService;
-        private BlogArticleAutoMapper _autoMapperLogic;
-
-        public BlogArticleController(IBlogService blogService)
+        private readonly BlogService _blogService;
+        private readonly BlogArticleMapping _blogArticleMapping;
+        public BlogArticleController()
         {
-            _blogService = blogService;
+            _blogService = new BlogService();
         }
 
-        [HttpGet]
+        [HttpGet("Read")]
         public IActionResult Read()
         {
             var items = _blogService.GetBlogArticles();
             return Ok(items);
         }
 
-        [HttpPost]
+        [HttpPost("Create")]
         public IActionResult Create(BlogArticleViewModel blogArticleViewModel)
         {
-            var mappedItem = 
-            _blogService.Add();
+            var mappedItem = _blogArticleMapping.MapToBlogArticle(blogArticleViewModel);
+            _blogService.Add(mappedItem);
             return Ok();
         }
 

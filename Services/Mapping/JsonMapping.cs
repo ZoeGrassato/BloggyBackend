@@ -1,14 +1,13 @@
-﻿using AutoMapper;
-using Models;
+﻿using Models;
 using Models.Mapping;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AutoMappingLogic
+namespace Services.Mapping
 {
-    public class BlogArticleAutoMapper
+    public class JsonMapping
     {
         public BlogArticleJson MapToBlogArticleJson(BlogArticle blogArticle)
         {
