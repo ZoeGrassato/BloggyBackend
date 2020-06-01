@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Generics;
+using Microsoft.Extensions.Logging;
 using Models;
 using Models.Mapping;
 using Newtonsoft.Json;
@@ -14,10 +15,12 @@ namespace Services
     {
         private JsonMapping _jsonMapping;
         private IDbConnection _dbConnnection;
-        public BlogService()
+        private ILogger _logger;
+        public BlogService(ILogger<IBlogService> logger, IDbConnection dbConnection)
         {
+            _logger = logger;
             _jsonMapping = new JsonMapping();
-            _dbConnnection = new DbConnection();
+            _dbConnnection = dbConnection;
         }
         public void Add(BlogArticle blogArticle)
         {
@@ -27,16 +30,16 @@ namespace Services
             var mappedSections = new List<SectionJson>();
             foreach (var item in blogArticle.Sections)
             {
-                Guid blogArticleId;
+                Guid blogArticleId = Guid.NewGuid();
                 mappedSections.Add(_jsonMapping.MapToSectionJson(item));
-                _dbConnnection.AddParagraphs(item.Paragraphs, ref blogArticleId);
+                _dbConnnection.AddParagraphs(item.Paragraphs, blogArticleId);
                 _dbConnnection.AddImages(item.Images);
             }
-            _dbConnnection.AddSections(mappedSections);
+            _dbConnnection.AddSections(mappedSections, Guid.NewGuid());
         }
         public void Delete(Guid blogArticleId)
         {
-            _dbConnnection.DeleteBlogArticle(blogArticleId);
+            _dbConnnection.DeleteBlogArticle(blogArticleId, Guid.NewGuid());
         }
 
         public List<BlogArticle> GetBlogArticles(Func<List<BlogArticle>, bool> customFunc = null)

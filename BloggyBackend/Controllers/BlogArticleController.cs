@@ -4,7 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using BloggyBackend.AutoMapper;
 using BloggyBackend.Models;
+using Generics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Services;
 
 namespace BloggyBackend.Controllers
@@ -13,11 +15,15 @@ namespace BloggyBackend.Controllers
     [ApiController]
     public class BlogArticleController : ControllerBase
     {
-        private readonly BlogService _blogService;
+        private readonly IBlogService _blogService;
         private readonly BlogArticleMapping _blogArticleMapping;
-        public BlogArticleController()
+        private readonly ILogger<BlogArticleController> _logger;
+
+        public BlogArticleController(ILogger<BlogArticleController> logger, IBlogService blogService, BlogArticleMapping blogArticleMapping)
         {
-            _blogService = new BlogService();
+            _blogService = blogService;
+            _logger = logger;
+            _blogArticleMapping = blogArticleMapping;
         }
 
         [HttpGet("Read")]

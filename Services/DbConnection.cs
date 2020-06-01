@@ -8,25 +8,36 @@ using Dapper;
 using Npgsql;
 using Models.Mapping;
 using System.Linq.Expressions;
+using Microsoft.Extensions.Logging;
 
 namespace Services
 {
     public class DbConnection : IDbConnection
     {
+        private ILogger<IDbConnection> _logger;
+        public DbConnection(ILogger<IDbConnection> logger)
+        {
+            _logger = logger;
+        }
         public void AddBlogArticle(BlogArticleJson blogArticle)
         {
-            string connectionString = "User ID = root;Password = unearth_Anubis5;Host = localhost; Port = 5432;Database = BloggyData;";
+            string connectionString = "UserID=root;Password=unearth_Anubis5;Host=localhost;Port=5432;Database=BloggyData;";
             string sqlQuery = "INSERT INTO dbo.blogarticle(BlogId, Title) VALUES(@BlogId, @Title)";
             using (var connection = new NpgsqlConnection(connectionString))
             {
-                try
-                {
-                    var affectedRows = connection.Execute(sqlQuery, new { BlogId = Guid.NewGuid(), Title = blogArticle.Title });
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
+                //try
+                //{
+                    var affectedRows = connection.Execute(sqlQuery, new
+                    {
+                        BlogId = Guid.NewGuid(),
+                        Title = blogArticle.Title
+                    });
+                //}
+                //catch (Exception ex)
+                //{
+                //    _logger.LogError(ex.Message, ex);
+                //    throw;
+                //}
             }
         }
 
@@ -51,7 +62,8 @@ namespace Services
                 }
                 catch (Exception ex)
                 {
-                    throw ex;
+                    _logger.LogError(ex.Message, ex);
+                    throw;
                 }
             }
         }
@@ -76,7 +88,8 @@ namespace Services
                 }
                 catch (Exception ex)
                 {
-                    throw ex;
+                    _logger.LogError(ex.Message, ex);
+                    throw;
                 }
             }
         }
@@ -90,10 +103,16 @@ namespace Services
             }
         }
 
-        public void DeleteBlogArticle(Guid BlogArticleId)
+        public void DeleteBlogArticle(Guid blogArticleId, Guid sectionId)
         {
+            var parameter = new DynamicParameters();
+
             string connectionString = "User ID = root;Password = unearth_Anubis5;Host = localhost; Port = 5432;Database = BloggyData;";
-            string sqlQuery = "DELETE FROM dbo.blogarticle WHERE BlogArticleId = @BlogArticleId";
+
+            string blogArticleQuery = "DELETE FROM dbo.blogarticle WHERE BlogArticleId = @BlogArticleId";
+            string sectionQuery = "DELETE FROM dbo.section WHERE BlogArticleId = @BlogArticleId";
+            string paragraphQuery = "DELETE FROM dbo.paragraph WHERE SectionId = @SectionId";
+
             using (var connection = new NpgsqlConnection(connectionString))
             {
 
@@ -102,11 +121,21 @@ namespace Services
 
         public List<T> GetAll<T>(Func<List<T>, bool> query = null)
         {
-            string connectionString = "User ID = root;Password = unearth_Anubis5;Host = localhost; Port = 5432;Database = BloggyData;";
-            string sqlQuery = "SELECT * FROM dbo.blogArticle";
-            using (var connection = new NpgsqlConnection(connectionString))
-            {
 
+            try
+            {
+                string connectionString = "User ID = root;Password = unearth_Anubis5;Host = localhost; Port = 5432;Database = BloggyData;";
+                string sqlQuery = "SELECT * FROM dbo.blogArticle";
+                using (var connection = new NpgsqlConnection(connectionString))
+                {
+
+                }
+            }
+
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message, ex);
+                throw;
             }
 
             return null;

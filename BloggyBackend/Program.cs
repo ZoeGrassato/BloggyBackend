@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Serilog;
+using Serilog.Events;
 
 namespace BloggyBackend
 {
@@ -18,9 +17,16 @@ namespace BloggyBackend
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
+           .ConfigureWebHostDefaults(webBuilder =>
+           {
+               webBuilder
+                .UseSerilog((ctx, cfg) =>
                 {
-                    webBuilder.UseStartup<Startup>();
-                });
+                    cfg.WriteTo.Console();
+                    cfg.WriteTo.ColoredConsole();
+                })
+                .UseStartup<Startup>();
+              
+           });
     }
 }

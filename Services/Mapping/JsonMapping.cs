@@ -11,7 +11,11 @@ namespace Services.Mapping
     {
         public BlogArticleJson MapToBlogArticleJson(BlogArticle blogArticle)
         {
-            var final = new BlogArticleJson { BlogArticleId = blogArticle.ArticleId, Title = blogArticle.Title };
+            var final = new BlogArticleJson
+            {
+                BlogArticleId = blogArticle.ArticleId,
+                Title = blogArticle.Title
+            };
             return final;
         }
 
