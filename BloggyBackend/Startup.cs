@@ -51,7 +51,7 @@ namespace BloggyBackend
             app.UseRouting();
 
             app.UseAuthorization();
-            app.UseMiddleware(typeof(ExceptionHandlerMiddleware));
+            app.UseMiddleware<ExceptionHandlerMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

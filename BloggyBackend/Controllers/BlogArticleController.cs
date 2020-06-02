@@ -30,12 +30,22 @@ namespace BloggyBackend.Controllers
         public IActionResult Read()
         {
             var items = _blogService.GetBlogArticles();
+
+            if (items == null || items.Count < 1)
+            {
+                return NotFound();
+            }
             return Ok(items);
         }
 
         [HttpPost("Create")]
         public IActionResult Create(BlogArticleViewModel blogArticleViewModel)
         {
+            if (!blogArticleViewModel.Validate())
+            {
+                throw new BloggyException("Requires at least one section and one title");
+            }
+
             var mappedItem = _blogArticleMapping.MapToBlogArticle(blogArticleViewModel);
             _blogService.Add(mappedItem);
             return Ok();
@@ -44,6 +54,10 @@ namespace BloggyBackend.Controllers
         [HttpPut]
         public IActionResult Update(BlogArticleViewModel blogArticleViewModel)
         {
+            if (!blogArticleViewModel.Validate())
+            {
+                throw new BloggyException("Requires at least one section and one title");
+            }
             return Ok();
         }
     }

@@ -11,5 +11,10 @@ namespace BloggyBackend.Models
         public Guid ArticleId { get; set; }
         public List<Section> Sections { get; set; }
         public string Title { get; set; }
+
+        public bool Validate()
+        {
+            return String.IsNullOrEmpty(Title) || Sections.Count <= 0;
+        }
     }
 }

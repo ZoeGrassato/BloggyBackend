@@ -42,10 +42,19 @@ namespace Services
             _dbConnnection.DeleteBlogArticle(blogArticleId, Guid.NewGuid());
         }
 
-        public List<BlogArticle> GetBlogArticles(Func<List<BlogArticle>, bool> customFunc = null)
+        public BlogArticlePackage GetBlogArticles(Func<List<BlogArticle>, bool> customFunc = null)
         {
-            var items = _dbConnnection.GetAll<BlogArticle>(customFunc);
-            return items;
+            var blogArticles = _dbConnnection.GetAllBlogArticles<BlogArticle>(customFunc);
+            var sectionItems = _dbConnnection.GetAllSections<Section>();
+            var paragraphItems = _dbConnnection.GetAllParagraphs<Paragraph>();
+
+            var itemsModel = new BlogArticlePackage
+            {
+                Sections = sectionItems,
+                Paragraphs= paragraphItems,
+                BlogArticles = blogArticles
+            };
+            return itemsModel;
         }
 
         public void Update(BlogArticle blogArticle, Guid blogArticleId)
