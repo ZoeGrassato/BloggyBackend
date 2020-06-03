@@ -30,11 +30,6 @@ namespace BloggyBackend.Controllers
         public IActionResult Read()
         {
             var items = _blogService.GetBlogArticles();
-
-            if (items == null || items.Count < 1)
-            {
-                return NotFound();
-            }
             return Ok(items);
         }
 

@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Repositories.BlogArticle;
 using Serilog;
 using Services;
 
@@ -31,7 +32,7 @@ namespace BloggyBackend
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddTransient<IDbConnection, DbConnection>();
+            services.AddTransient<IBlogArticleRepository, BlogArticleRepository>();
             services.AddTransient<IBlogService, BlogService>();
             services.AddTransient<BlogArticleMapping>();
         }
