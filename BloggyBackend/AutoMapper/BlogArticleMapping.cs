@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using BloggyBackend.Models;
-using Models;
+using Services.BlogArticle.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,16 +10,16 @@ namespace BloggyBackend.AutoMapper
 {
     public class BlogArticleMapping
     {
-        public BlogArticle MapToBlogArticle(BlogArticleViewModel blogArticleViewModel)
+        public BlogArticleTransferObj MapToBlogArticle(BlogArticleViewModel blogArticleViewModel)
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<BlogArticleViewModel, BlogArticle>();
+                cfg.CreateMap<BlogArticleViewModel, BlogArticleTransferObj>();
             });
 
             IMapper mapper = config.CreateMapper();
             var source = blogArticleViewModel;
-            var final = mapper.Map<BlogArticleViewModel, BlogArticle>(source);
+            var final = mapper.Map<BlogArticleViewModel, BlogArticleTransferObj>(source);
             return final;
         }
     }

@@ -19,21 +19,6 @@ namespace Repositories.BlogArticle
             _logger = logger;
         }
 
-        public BlogArticleAccessObj QueryBlogArticle()
-        {
-            string connectionString = "UserID=root;Password=unearth_Anubis5;Host=localhost;Port=5432;Database=BloggyData;";
-            string sqlQuery = "SELECT * FROM dbo.blogarticle(BlogId, Title) VALUES(@BlogId, @Title)";
-            using (var connection = new NpgsqlConnection(connectionString))
-            {
-                var affectedRows = connection.Execute(sqlQuery, new
-                {
-                    BlogId = Guid.NewGuid(),
-                    Title = blogArticle.Title
-                });
-            }
-        }
-
-
         public void AddBlogArticle(BlogArticleAccessObj blogArticle)
         {
             string connectionString = "UserID=root;Password=unearth_Anubis5;Host=localhost;Port=5432;Database=BloggyData;";
@@ -122,7 +107,7 @@ namespace Repositories.BlogArticle
             return blogArticleItems;
         }
 
-        public List<SectionAccessObj> GetAllSections<T>(Func<List<T>, bool> query = null)
+        public List<SectionAccessObj> GetAllSections()
         {
             string connectionString = "UserID=root;Password=unearth_Anubis5;Host=localhost;Port=5432;Database=BloggyData;";
             string sqlQuery = "SELECT * FROM dbo.section";
@@ -135,7 +120,7 @@ namespace Repositories.BlogArticle
             return blogArticleItems;
         }
 
-        public List<ParagraphAccessObj> GetAllParagraphs<T>(Func<List<T>, bool> query = null)
+        public List<ParagraphAccessObj> GetAllParagraphs()
         {
             string connectionString = "UserID=root;Password=unearth_Anubis5;Host=localhost;Port=5432;Database=BloggyData;";
             string sqlQuery = "SELECT * FROM dbo.paragraph";

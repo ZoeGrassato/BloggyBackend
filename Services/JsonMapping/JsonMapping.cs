@@ -1,6 +1,6 @@
-﻿using Models;
-using Models.Mapping;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using Services.BlogArticle.Models;
+using Services.BlogArticle.Models.JsonMappingModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,19 +9,9 @@ namespace Services.Mapping
 {
     public class JsonMapping
     {
-        public BlogArticleJson MapToBlogArticleJson(BlogArticle blogArticle)
+        public SectionJsonTransferObj MapToSectionJson(SectionTransferObj section)
         {
-            var final = new BlogArticleJson
-            {
-                BlogArticleId = blogArticle.ArticleId,
-                Title = blogArticle.Title
-            };
-            return final;
-        }
-
-        public SectionJson MapToSectionJson(Section section)
-        {
-            var final = new SectionJson
+            var final = new SectionJsonTransferObj
             {
                 SectionId = section.SectionId,
                 Header = JsonConvert.SerializeObject(section.Header),
