@@ -11,29 +11,36 @@ using Services;
 
 namespace BloggyBackend.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/blog-articles")]
     [ApiController]
-    public class BlogArticleController : ControllerBase
+    public class BlogArticlesController : ControllerBase
     {
         private readonly IBlogService _blogService;
         private readonly BlogArticleMapping _blogArticleMapping;
-        private readonly ILogger<BlogArticleController> _logger;
+        private readonly ILogger<BlogArticlesController> _logger;
 
-        public BlogArticleController(ILogger<BlogArticleController> logger, IBlogService blogService, BlogArticleMapping blogArticleMapping)
+        public BlogArticlesController(ILogger<BlogArticlesController> logger, IBlogService blogService, BlogArticleMapping blogArticleMapping)
         {
             _blogService = blogService;
             _logger = logger;
             _blogArticleMapping = blogArticleMapping;
         }
 
-        [HttpGet("Read")]
+        [HttpGet]
+        public IActionResult ReadAll()
+        {
+            var items = _blogService.GetBlogArticles();
+            return Ok(items);
+        }
+
+        [HttpGet("{id}")]
         public IActionResult Read()
         {
             var items = _blogService.GetBlogArticles();
             return Ok(items);
         }
 
-        [HttpPost("Create")]
+        [HttpPost]
         public IActionResult Create(BlogArticleViewModel blogArticleViewModel)
         {
             if (!blogArticleViewModel.Validate())
