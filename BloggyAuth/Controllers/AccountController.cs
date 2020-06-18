@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BloggyAuthorization.Controllers
+namespace BloggyAuth.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/accounts")]
     [ApiController]
-    public class AccountController : ControllerBase
+    public class AccountController : Controller
     {
         public async Task Login(string returnUrl = "/")
         {
@@ -30,6 +30,12 @@ namespace BloggyAuthorization.Controllers
                 RedirectUri = Url.Action("Index", "Home")
             });
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        }
+
+        [HttpGet("login")]
+        public IActionResult Login()
+        {
+            return View();
         }
     }
 }

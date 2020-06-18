@@ -8,17 +8,17 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
-namespace BloggyAuthorization
+namespace BloggyAuth
 {
     public class Startup
     {
+        private string Environment => System.Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -36,41 +36,32 @@ namespace BloggyAuthorization
             })
                .AddCookie()
                .AddOpenIdConnect("Auth0", options => {
-                    options.Authority = $"https://{Configuration["Auth0:Domain"]}";
 
-                   options.ClientId = Configuration["Auth0:ClientId"];
-                   options.ClientSecret = Configuration["Auth0:ClientSecret"];
-
-                    // Set response type to code
-                    options.ResponseType = OpenIdConnectResponseType.Code;
-
-                    // Configure the scope
-                    options.Scope.Add("openid");
-
-                    // Set the callback path, so Auth0 will call back to http://localhost:3000/callback
-                    // Also ensure that you have added the URL as an Allowed Callback URL in your Auth0 dashboard
-                    options.CallbackPath = new PathString("/callback");
-
-                    // Configure the Claims Issuer to be Auth0
-                    options.ClaimsIssuer = "Auth0";
+                   options.Authority = $"https://{Configuration["Auth0:Domain"]}";
+                   options.ClientId = Configuration[$"{Environment}:Security:ClientId"];
+                   options.ClientSecret = Configuration[$"{Environment}:Security:ClientSecret"];
+                   options.ResponseType = OpenIdConnectResponseType.Code;
+                   options.Scope.Add("openid");
+                   options.CallbackPath = new PathString("/Account/callback");
+                   options.ClaimsIssuer = "Auth0";
 
                    options.Events = new OpenIdConnectEvents
                    {
-                        // handle the logout redirection
-                        OnRedirectToIdentityProviderForSignOut = (context) =>
+                       OnRedirectToIdentityProviderForSignOut = (context) =>
                        {
-                           var logoutUri = $"https://{Configuration["Auth0:Domain"]}/v2/logout?client_id={Configuration["Auth0:ClientId"]}";
+                           context.ProtocolMessage.SetParameter("audience", Configuration[$"{Environment}:HostDomain"]);
+
+                           var logoutUri = $"https://{Configuration["Auth0:Domain"]}/v2/logout?client_id={Configuration[$"{Environment}:Security:ClientId"]}";
 
                            var postLogoutUri = context.Properties.RedirectUri;
                            if (!string.IsNullOrEmpty(postLogoutUri))
                            {
                                if (postLogoutUri.StartsWith("/"))
                                {
-                                    // transform to absolute
-                                    var request = context.Request;
+                                   var request = context.Request;
                                    postLogoutUri = request.Scheme + "://" + request.Host + request.PathBase + postLogoutUri;
                                }
-                               logoutUri += $"&returnTo={ Uri.EscapeDataString(postLogoutUri)}";
+                               logoutUri += $"&returnTo={ Uri.EscapeDataString(postLogoutUri) }";
                            }
 
                            context.Response.Redirect(logoutUri);
@@ -80,7 +71,6 @@ namespace BloggyAuthorization
                        }
                    };
                });
-
             services.AddControllers();
         }
 
@@ -94,6 +84,7 @@ namespace BloggyAuthorization
 
             app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
