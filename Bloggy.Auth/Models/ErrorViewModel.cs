@@ -1,6 +1,6 @@
 using System;
 
-namespace BloggyAuth.Models
+namespace Bloggy.Auth.Models
 {
     public class ErrorViewModel
     {

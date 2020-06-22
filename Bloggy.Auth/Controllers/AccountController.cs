@@ -5,15 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BloggyAuth.Controllers
+namespace Bloggy.Auth.Controllers
 {
-    [Route("api/accounts")]
-    [ApiController]
     public class AccountController : Controller
     {
+        public IActionResult Index()
+        {
+            return View();
+        }
         public async Task Login(string returnUrl = "/")
         {
             await HttpContext.ChallengeAsync("Auth0", new AuthenticationProperties() { RedirectUri = returnUrl });
@@ -30,12 +31,6 @@ namespace BloggyAuth.Controllers
                 RedirectUri = Url.Action("Index", "Home")
             });
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-        }
-
-        [HttpGet("login")]
-        public IActionResult Login()
-        {
-            return View();
         }
     }
 }
