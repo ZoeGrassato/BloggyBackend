@@ -1,8 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using AutoMapper;
 using BloggyBackend.AutoMapper;
+using BloggyBackend.DependancyInjenction;
 using BloggyBackend.Middleware;
 using Generics;
 using Microsoft.AspNetCore.Builder;
@@ -16,6 +14,8 @@ using Microsoft.Extensions.Logging;
 using Repositories.BlogArticle;
 using Serilog;
 using Services;
+using Services.AutoMapping.MappingProfiles;
+using System.Reflection;
 
 namespace BloggyBackend
 {
@@ -32,9 +32,7 @@ namespace BloggyBackend
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddTransient<IBlogArticleRepository, BlogArticleRepository>();
-            services.AddTransient<IBlogService, BlogService>();
-            services.AddTransient<BlogArticleMapping>();
+            DIRegistration.RegisterServices(services);
             services.AddAuthentication();
         }
 

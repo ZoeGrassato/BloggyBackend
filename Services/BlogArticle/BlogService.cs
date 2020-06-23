@@ -18,13 +18,11 @@ namespace Services
         private AccessObjectMapping _accessObjectMapping;
         private IBlogArticleRepository _dbConnnection;
         private ILogger _logger;
-        private IMapper _mapper;
-        public BlogService(ILogger<IBlogService> logger, IBlogArticleRepository dbConnection, IMapper mapper)
+        public BlogService(ILogger<IBlogService> logger, IBlogArticleRepository dbConnection)
         {
             _logger = logger;
             _jsonMapping = new JsonMapping();
             _dbConnnection = dbConnection;
-            _mapper = mapper;
         }
         public void Add(BlogArticleTransferObj blogArticle)
         {

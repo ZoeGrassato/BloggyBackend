@@ -26,6 +26,12 @@ namespace BloggyBackend.Controllers
             _blogArticleMapping = blogArticleMapping;
         }
 
+        [HttpGet("Callback")]
+        public IActionResult Callback()
+        {
+            return Ok();
+        }
+
         [HttpGet]
         public IActionResult ReadAll()
         {

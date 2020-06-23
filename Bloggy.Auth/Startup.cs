@@ -41,7 +41,7 @@ namespace Bloggy.Auth
                   options.ClientSecret = Configuration[$"{Environment}:Security:ClientSecret"];
                   options.ResponseType = OpenIdConnectResponseType.Code;
                   options.Scope.Add("openid");
-                  options.CallbackPath = new PathString("/Account/callback");
+                  options.CallbackPath = new PathString("/api/v1/blog-articles/Callback");
                   options.ClaimsIssuer = "Auth0";
 
                   options.Events = new OpenIdConnectEvents
