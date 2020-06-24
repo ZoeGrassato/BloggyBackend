@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29905.134
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BloggyBackend", "BloggyBackend\BloggyBackend.csproj", "{B88EB3F8-76F3-4A96-96C4-A3A8CF9993A6}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{E9B6FE68-304D-4768-919F-E38A3C9A2883}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repositories", "Repositories\Repositories.csproj", "{A08AB96D-A791-4B2A-A446-A8451E1496E1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bloggy.Auth", "Bloggy.Auth\Bloggy.Auth.csproj", "{E17B1D4B-556B-4E17-9B52-8CA0C8111746}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bloggy.Backend", "Bloggy.Backend\Bloggy.Backend.csproj", "{B3E050C3-8070-490B-88A5-637241446E99}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bloggy.App", "Bloggy.App\Bloggy.App.csproj", "{C2C25648-1C2B-499F-AFBC-A9247E5CE55C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +19,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B88EB3F8-76F3-4A96-96C4-A3A8CF9993A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B88EB3F8-76F3-4A96-96C4-A3A8CF9993A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B88EB3F8-76F3-4A96-96C4-A3A8CF9993A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B88EB3F8-76F3-4A96-96C4-A3A8CF9993A6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E9B6FE68-304D-4768-919F-E38A3C9A2883}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E9B6FE68-304D-4768-919F-E38A3C9A2883}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9B6FE68-304D-4768-919F-E38A3C9A2883}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,6 +31,13 @@ Global
 		{E17B1D4B-556B-4E17-9B52-8CA0C8111746}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E17B1D4B-556B-4E17-9B52-8CA0C8111746}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E17B1D4B-556B-4E17-9B52-8CA0C8111746}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3E050C3-8070-490B-88A5-637241446E99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3E050C3-8070-490B-88A5-637241446E99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3E050C3-8070-490B-88A5-637241446E99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3E050C3-8070-490B-88A5-637241446E99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2C25648-1C2B-499F-AFBC-A9247E5CE55C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2C25648-1C2B-499F-AFBC-A9247E5CE55C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2C25648-1C2B-499F-AFBC-A9247E5CE55C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
