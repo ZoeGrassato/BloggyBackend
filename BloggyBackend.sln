@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bloggy.Auth", "Bloggy.Auth\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bloggy.Backend", "Bloggy.Backend\Bloggy.Backend.csproj", "{B3E050C3-8070-490B-88A5-637241446E99}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bloggy.App", "Bloggy.App\Bloggy.App.csproj", "{C2C25648-1C2B-499F-AFBC-A9247E5CE55C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bloggy.App", "Bloggy.App\Bloggy.App.csproj", "{C2C25648-1C2B-499F-AFBC-A9247E5CE55C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bloggy.BehaviourTesting", "Bloggy.BehaviourTesting\Bloggy.BehaviourTesting.csproj", "{350F5106-7F04-4F2B-9004-A521E33336DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -38,6 +40,10 @@ Global
 		{C2C25648-1C2B-499F-AFBC-A9247E5CE55C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C2C25648-1C2B-499F-AFBC-A9247E5CE55C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2C25648-1C2B-499F-AFBC-A9247E5CE55C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{350F5106-7F04-4F2B-9004-A521E33336DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{350F5106-7F04-4F2B-9004-A521E33336DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{350F5106-7F04-4F2B-9004-A521E33336DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{350F5106-7F04-4F2B-9004-A521E33336DE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
