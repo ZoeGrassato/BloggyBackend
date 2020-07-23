@@ -22,7 +22,7 @@ namespace Bloggy.BehaviourTesting.StepDefinitions
         public async void WhenISubmitABlogArticle(string title, int sectionCount, int imageCount, int paragraphCount)
         {
             submissionArticle = BlogArticleUtils.Generate(title, sectionCount, imageCount, paragraphCount);
-            response = await "http://localhost:5000/".AppendPathSegments("api", "v1", "blog-article").PostJsonAsync(submissionArticle);
+            response = await "http://localhost:5000".AppendPathSegments("api", "v1", "blog-article").PostJsonAsync(submissionArticle);
 
         }
 

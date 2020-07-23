@@ -21,8 +21,8 @@ namespace Repositories.BlogArticle
 
         public void AddBlogArticle(BlogArticleAccessObj blogArticle)
         {
-            string connectionString = "UserID=root;Password=unearth_Anubis5;Host=localhost;Port=5432;Database=BloggyData;";
-            string sqlQuery = "INSERT INTO dbo.blogarticle(BlogId, Title) VALUES(@BlogId, @Title)";
+            string connectionString = "UserID=postgres;Password=unearth_Anubis5;Host=localhost;Port=5432;Database=BloggyData;";
+            string sqlQuery = "INSERT INTO blogarticle(BlogId, Title) VALUES(@BlogId, @Title)";
             using (var connection = new NpgsqlConnection(connectionString))
             {
                 var affectedRows = connection.Execute(sqlQuery, new
@@ -35,8 +35,8 @@ namespace Repositories.BlogArticle
 
         public void AddSections(List<SectionJsonAccessObj> sections, Guid currentBlogId)
         {
-            string connectionString = "UserID=root;Password=unearth_Anubis5;Host=localhost;Port=5432;Database=BloggyData;";
-            string sqlQuery = "INSERT INTO dbo.section(BlogId, SectionId, Header, SubHeader) VALUES(@BlogId, @SectionId, @Header, @SubHeader)";
+            string connectionString = "UserID=postgres;Password=unearth_Anubis5;Host=localhost;Port=5432;Database=BloggyData;";
+            string sqlQuery = "INSERT INTO section(BlogId, SectionId, Header, SubHeader) VALUES(@BlogId, @SectionId, CAST(@Header as json), CAST(@SubHeader as json))";
             using (var connection = new NpgsqlConnection(connectionString))
             {
                 for (int i = 0; i < sections.Count; i++)
@@ -54,8 +54,8 @@ namespace Repositories.BlogArticle
 
         public void AddParagraphs(List<ParagraphAccessObj> paragraphs, Guid sectionId)
         {
-            string connectionString = "UserID=root;Password=unearth_Anubis5;Host=localhost;Port=5432;Database=BloggyData;";
-            string sqlQuery = "INSERT INTO dbo.paragraph(ParagraphId, ParagraphTextArea, SectionId) VALUES(@ParagraphId, @ParagraphTextArea, @SectionId)";
+            string connectionString = "UserID=postgres;Password=unearth_Anubis5;Host=localhost;Port=5432;Database=BloggyData;";
+            string sqlQuery = "INSERT INTO paragraph(ParagraphId, ParagraphTextArea, SectionId) VALUES(@ParagraphId, @ParagraphTextArea, @SectionId)";
             using (var connection = new NpgsqlConnection(connectionString))
             {
                 for (int i = 0; i < paragraphs.Count; i++)
@@ -72,7 +72,7 @@ namespace Repositories.BlogArticle
 
         public void AddImages(List<ImageAccessObj> images)
         {
-            string connectionString = "UserID=root;Password=unearth_Anubis5;Host=localhost;Port=5432;Database=BloggyData;";
+            string connectionString = "UserID=postgres;Password=unearth_Anubis5;Host=localhost;Port=5432;Database=BloggyData;";
             using (var connection = new NpgsqlConnection(connectionString))
             {
 
@@ -82,22 +82,22 @@ namespace Repositories.BlogArticle
         public void DeleteBlogArticle(Guid blogArticleId, Guid sectionId)
         {
             var parameter = new DynamicParameters();
-            string connectionString = "UserID=root;Password=unearth_Anubis5;Host=localhost;Port=5432;Database=BloggyData;";
+            string connectionString = "UserID=postgres;Password=unearth_Anubis5;Host=localhost;Port=5432;Database=BloggyData;";
 
-            string blogArticleQuery = "DELETE FROM dbo.blogarticle WHERE BlogArticleId = @BlogArticleId";
+            string blogArticleQuery = "DELETE FROM blogarticle WHERE BlogArticleId = @BlogArticleId";
             string sectionQuery = "DELETE FROM dbo.section WHERE BlogArticleId = @BlogArticleId";
             string paragraphQuery = "DELETE FROM dbo.paragraph WHERE SectionId = @SectionId";
 
             using (var connection = new NpgsqlConnection(connectionString))
             {
-
+                
             }
         }
 
         public List<BlogArticleAccessObj> GetAllBlogArticles()
         {
-            string connectionString = "UserID=root;Password=unearth_Anubis5;Host=localhost;Port=5432;Database=BloggyData;";
-            string sqlQuery = $"SELECT * FROM dbo.blogArticle";
+            string connectionString = "UserID=postgres;Password=unearth_Anubis5;Host=localhost;Port=5432;Database=BloggyData;";
+            string sqlQuery = $"SELECT * FROM blogArticle";
 
             var blogArticleItems = new List<BlogArticleAccessObj>();
             using (var connection = new NpgsqlConnection(connectionString))
@@ -109,8 +109,8 @@ namespace Repositories.BlogArticle
 
         public List<SectionAccessObj> GetAllSections()
         {
-            string connectionString = "UserID=root;Password=unearth_Anubis5;Host=localhost;Port=5432;Database=BloggyData;";
-            string sqlQuery = "SELECT * FROM dbo.section";
+            string connectionString = "UserID=postgres;Password=unearth_Anubis5;Host=localhost;Port=5432;Database=BloggyData;";
+            string sqlQuery = "SELECT * FROM section";
 
             var blogArticleItems = new List<SectionAccessObj>();
             using (var connection = new NpgsqlConnection(connectionString))
@@ -122,8 +122,8 @@ namespace Repositories.BlogArticle
 
         public List<ParagraphAccessObj> GetAllParagraphs()
         {
-            string connectionString = "UserID=root;Password=unearth_Anubis5;Host=localhost;Port=5432;Database=BloggyData;";
-            string sqlQuery = "SELECT * FROM dbo.paragraph";
+            string connectionString = "UserID=postgres;Password=unearth_Anubis5;Host=localhost;Port=5432;Database=BloggyData;";
+            string sqlQuery = "SELECT * FROM paragraph";
 
             var blogArticleItems = new List<ParagraphAccessObj>();
             using (var connection = new NpgsqlConnection(connectionString))
@@ -135,7 +135,7 @@ namespace Repositories.BlogArticle
 
         public void UpdateItem(Guid blogArticleId, BlogArticleAccessObj blogArticle)
         {
-            string connectionString = "UserID=root;Password=unearth_Anubis5;Host=localhost;Port=5432;Database=BloggyData;";
+            string connectionString = "UserID=postgres;Password=unearth_Anubis5;Host=localhost;Port=5432;Database=BloggyData;";
             using (var connection = new NpgsqlConnection(connectionString))
             {
 

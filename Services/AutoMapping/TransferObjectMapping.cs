@@ -37,29 +37,39 @@ namespace Services.Mapping
             return final;
         }
 
-        public List<ImageAccessObj> MapToImageAccessObj(List<ImageTransferObj> paragraphTransferObj)
+        public List<ImageAccessObj> MapToImageAccessObj(List<ImageTransferObj> imageItems)
         {
+            var final = new List<ImageAccessObj>();
+
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<ImageTransferObj, ImageAccessObj>();
             });
-
-            IMapper mapper = config.CreateMapper();
-            var source = paragraphTransferObj;
-            var final = mapper.Map<List<ImageTransferObj>, List<ImageAccessObj>>(source);
+            
+            foreach(var item in imageItems)
+            {
+                IMapper mapper = config.CreateMapper();
+                var source = item;
+                final.Add(mapper.Map<ImageTransferObj,ImageAccessObj>(source));
+            }
             return final;
         }
 
-        public List<SectionJsonAccessObj> MapToSectionAccessObj(List<SectionJsonTransferObj> sectionTransferObj)
+        public List<SectionJsonAccessObj> MapToSectionAccessObj(List<SectionJsonTransferObj> sections)
         {
+            var final = new List<SectionJsonAccessObj>();
+
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<List<SectionJsonTransferObj>, List<SectionJsonAccessObj>>();
+                cfg.CreateMap<SectionJsonTransferObj, SectionJsonAccessObj>();
             });
 
-            IMapper mapper = config.CreateMapper();
-            var source = sectionTransferObj;
-            var final = mapper.Map<List<SectionJsonTransferObj>, List<SectionJsonAccessObj>>(source);
+            foreach (var item in sections)
+            {
+                IMapper mapper = config.CreateMapper();
+                var source = item;
+                final.Add(mapper.Map<SectionJsonTransferObj, SectionJsonAccessObj>(source));
+            }
             return final;
         }
     }

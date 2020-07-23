@@ -14,8 +14,8 @@ namespace Services
     public class BlogService : IBlogService
     {
         private JsonMapping _jsonMapping;
-        private TransferObjectMapping _transferObjectMapping;
-        private AccessObjectMapping _accessObjectMapping;
+        private TransferObjectMapping _transferObjectMapping = new TransferObjectMapping();
+        private AccessObjectMapping _accessObjectMapping = new AccessObjectMapping();
         private IBlogArticleRepository _dbConnnection;
         private ILogger _logger;
         public BlogService(ILogger<IBlogService> logger, IBlogArticleRepository dbConnection)
@@ -35,10 +35,15 @@ namespace Services
             {
                 Guid blogArticleId = Guid.NewGuid();
                 mappedSections.Add(_jsonMapping.MapToSectionJson(item));
-                _dbConnnection.AddParagraphs(_transferObjectMapping.MapToParagraphAccessObj(item.Paragraphs), blogArticleId);
-                _dbConnnection.AddImages(_transferObjectMapping.MapToImageAccessObj(item.Images));
+
+                _dbConnnection.AddParagraphs(_transferObjectMapping
+                    .MapToParagraphAccessObj(item.Paragraphs), blogArticleId);
+
+                _dbConnnection.AddImages(_transferObjectMapping
+                    .MapToImageAccessObj(item.Images));
             }
-            _dbConnnection.AddSections(_transferObjectMapping.MapToSectionAccessObj(mappedSections), Guid.NewGuid());
+            _dbConnnection.AddSections(_transferObjectMapping
+                .MapToSectionAccessObj(mappedSections), Guid.NewGuid());
         }
         public void Delete(Guid blogArticleId)
         {
