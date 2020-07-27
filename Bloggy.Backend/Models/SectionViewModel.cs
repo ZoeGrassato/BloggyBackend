@@ -12,5 +12,6 @@ namespace Bloggy.Backend.Models
         public SubHeaderViewModel SubHeader { get; set; }
         public List<ParagraphViewModel> Paragraphs { get; set; }
         public List<ImageViewModel> Images { get; set; }
+        public Guid BlogId { get; set; }
     }
 }

@@ -78,5 +78,36 @@ namespace Bloggy.BehaviourTesting.Utils
             var rand = new Random();
             return rand.Next(0, 2) == 0;
         }
+
+        public static BlogArticleViewModel CreateCustomBlogArticle(string blogArticleId, string sectionId, string paragraphId, string paragraphTextArea)
+        {
+            var paragraphs = new List<ParagraphViewModel>()
+            {
+                new ParagraphViewModel()
+                {
+                    ParagraphId = Guid.Parse(paragraphId),
+                    ParagraphTextArea = paragraphTextArea,
+                    SectionId = Guid.Parse(sectionId)
+                }
+            };
+
+            var sections = new List<SectionViewModel>()
+            {
+                new SectionViewModel()
+                {
+                    SectionId = Guid.Parse(sectionId),
+                    BlogId = Guid.Parse(blogArticleId),
+                    Paragraphs = paragraphs
+                }
+            };
+
+            var final = new BlogArticleViewModel()
+            {
+                ArticleId = Guid.Parse(blogArticleId),
+                Sections = sections
+            };
+
+            return final;
+        }
     }
 }

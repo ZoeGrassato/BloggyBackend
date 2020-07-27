@@ -5,7 +5,10 @@ using Flurl.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Services.BlogArticle.Models;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using TechTalk.SpecFlow;
 
@@ -18,20 +21,20 @@ namespace Bloggy.BehaviourTesting.StepDefinitions
         private BlogArticleTransferObj responseArticle;
         private BlogArticleViewModel submissionArticle;
 
+        //CREATE blog article
         [When("I submit a blog article with the title (.*) and (\\d*) sections with (\\d*) images and (\\d*) paragraphs each")]
-        public async void WhenISubmitABlogArticle(string title, int sectionCount, int imageCount, int paragraphCount)
+        public void WhenISubmitABlogArticle(string title, int sectionCount, int imageCount, int paragraphCount)
         {
             submissionArticle = BlogArticleUtils.Generate(title, sectionCount, imageCount, paragraphCount);
-            response = await "http://localhost:5000".AppendPathSegments("api", "v1", "blog-article").PostJsonAsync(submissionArticle);
-
+            response = "http://localhost:5000".AppendPathSegments("api", "v1", "blog-articles").PostJsonAsync(submissionArticle).Result;
         }
 
         [Then("My blog article should exist within bloggy with the title (.*)")]
-        public async void MyBlogArticleShouldExistWithinBloggyAsync(string title)
+        public void MyBlogArticleShouldExistWithinBloggyAsync(string title)
         {
-            Assert.AreEqual(200, response.StatusCode);
+            Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
 
-            responseArticle = JsonConvert.DeserializeObject<BlogArticleTransferObj>(await response.Content.ReadAsStringAsync());
+            responseArticle = JsonConvert.DeserializeObject<BlogArticleTransferObj>(response.Content.ReadAsStringAsync().Result);
 
             Assert.IsNotNull(responseArticle);
             Assert.AreEqual(title, responseArticle.Title);
@@ -42,12 +45,12 @@ namespace Bloggy.BehaviourTesting.StepDefinitions
         {
             Assert.IsNotNull(responseArticle);
             Assert.IsNotNull(responseArticle.Sections);
-            Assert.AreEqual(sectionCount, responseArticle.Sections.Capacity);
+            Assert.AreEqual(sectionCount, responseArticle.Sections.Count);
 
             foreach (var section in responseArticle.Sections)
             {
-                Assert.AreEqual(imageCount, section.Images.Capacity);
-                Assert.AreEqual(paragraphCount, section.Paragraphs.Capacity);
+                Assert.AreEqual(imageCount, section.Images.Count);
+                Assert.AreEqual(paragraphCount, section.Paragraphs.Count);
             }
         }
 
@@ -98,6 +101,34 @@ namespace Bloggy.BehaviourTesting.StepDefinitions
                     Assert.IsTrue(pargraphDataExists);
                 }
             }
+        }
+
+
+        //UPDATE blog article
+        [Given("I have a blog article with the id (.*) and sectionId (.*) and paragraphId (.*)")]
+        public void GivenIHaveABlogArticle(string blogArticleId, string sectionId, string paragraphId)
+        {
+            response = "http://localhost:5000".AppendPathSegments("api", "v1", "blog-articles").GetJsonAsync().Result;
+
+            Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
+            var items = JsonConvert.DeserializeObject<BlogArticlePackageTransferObj>(response.Content.ReadAsStringAsync().Result);
+
+            Assert.IsNotNull(items.BlogArticles.SingleOrDefault(x => x.BlogArticleId == Guid.Parse(blogArticleId)));
+            Assert.IsNotNull(items.Sections.SingleOrDefault(x => x.SectionId == Guid.Parse(sectionId)));
+            Assert.IsNotNull(items.Paragraphs.SingleOrDefault(x => x.ParagraphId == Guid.Parse(paragraphId)));
+        }
+
+        [When("I update the blog article with id (.*) and sectionId (.*) and paragraphId (.*) and set paragraphTextArea to (.*)")]
+        public void WhenIUpdateABlogArticle(string blogArticleId, string sectionId, string paragraphId, string paragraphTextArea) 
+        {
+            var model = BlogArticleUtils.CreateCustomBlogArticle(blogArticleId, sectionId, paragraphId, paragraphTextArea);
+            response = "http://localhost:5000".AppendPathSegments("api", "v1", "blog-articles").PutJsonAsync(model).Result;
+        }
+
+        [Then("The blog article with id (.*) and sectionId (.*) and paragraphId (.*) should reflect the updated info with paragraphTextArea set to (.*)")]
+        public void ThenTheBlogArticleShouldReflectTheUpdate(string blogArticleId, string sectionId, string paragraphId, string paragraphTextArea)
+        {
+
         }
     }
 }

@@ -41,23 +41,17 @@ namespace Bloggy.Backend.Controllers.v1
         public IActionResult Read(string id)
         {
             var items = _blogService.GetBlogArticles();
-            return StatusCode(200, items);
+            return Ok(items);
         }
 
         [HttpPost]
-        public HttpResponseMessage Create(BlogArticleViewModel blogArticleViewModel)
+        public IActionResult Create(BlogArticleViewModel blogArticleViewModel)
         {
             if (blogArticleViewModel.Validate())
             {
                 throw new BloggyException("Requires at least one section and one title");
             }
-
-            var mappedItem = _blogArticleMapping.MapToBlogArticle(blogArticleViewModel);
-            _blogService.Add(mappedItem);
-            var item = new HttpResponseMessage();
-            item.StatusCode = (HttpStatusCode)201;
-            item.Content = new StringContent(JsonConvert.SerializeObject(mappedItem));
-            return item;
+            return Created(string.Empty, blogArticleViewModel);
         }
 
         [HttpPut]
@@ -67,7 +61,7 @@ namespace Bloggy.Backend.Controllers.v1
             {
                 throw new BloggyException("Requires at least one section and one title");
             }
-            return StatusCode(200);
+            return Ok(blogArticleViewModel);
         }
     }
 }
