@@ -51,16 +51,20 @@ namespace Bloggy.Backend.Controllers.v1
             {
                 throw new BloggyException("Requires at least one section and one title");
             }
+            var mappedItem = _blogArticleMapping.MapToBlogArticle(blogArticleViewModel);
+            _blogService.Add(mappedItem);
             return Created(string.Empty, blogArticleViewModel);
         }
 
         [HttpPut]
-        public IActionResult Update(BlogArticleViewModel blogArticleViewModel)
+        public IActionResult Update(UpdateBlogArticleViewModel blogArticleViewModel)
         {
-            if (!blogArticleViewModel.Validate())
+            if (blogArticleViewModel.Validate())
             {
                 throw new BloggyException("Requires at least one section and one title");
             }
+            var mappedItem = _blogArticleMapping.MapToUpdateBlogArticle(blogArticleViewModel);
+            _blogService.Update(mappedItem);
             return Ok(blogArticleViewModel);
         }
     }

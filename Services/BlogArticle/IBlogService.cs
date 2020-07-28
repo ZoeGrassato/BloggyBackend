@@ -24,7 +24,7 @@ namespace Generics
         /// </summary>
         /// <param name="blogArticle">object containing the new data to update with</param>
         /// <param name="blogArticleId"></param>
-        void Update(BlogArticleTransferObj blogArticle, Guid blogArticleId);
+        void Update(UpdateBlogArticleTransferObj blogArticle);
 
         /// <summary>
         /// deletes a blog article based on its unique id

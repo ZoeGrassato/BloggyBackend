@@ -24,6 +24,19 @@ namespace Services.Mapping
             return final;
         }
 
+        public UpdateBlogArticleAccessObj MapToUpdateBlogArticleAccessObj(UpdateBlogArticleTransferObj blogArticleTransferObj)
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<UpdateBlogArticleTransferObj, UpdateBlogArticleAccessObj>();
+            });
+
+            IMapper mapper = config.CreateMapper();
+            var source = blogArticleTransferObj;
+            var final = mapper.Map<UpdateBlogArticleTransferObj, UpdateBlogArticleAccessObj>(source);
+            return final;
+        }
+
         public List<ParagraphAccessObj> MapToParagraphAccessObj(List<ParagraphTransferObj> paragraphTransferObj)
         {
             var config = new MapperConfiguration(cfg =>

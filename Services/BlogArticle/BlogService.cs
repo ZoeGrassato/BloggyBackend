@@ -65,10 +65,10 @@ namespace Services
             return finalModel;
         }
 
-        public void Update(BlogArticleTransferObj blogArticle, Guid blogArticleId)
+        public void Update(UpdateBlogArticleTransferObj blogArticle)
         {
-            var mappedItem = _transferObjectMapping.MapToBlogArticleAccessObj(blogArticle);
-            _dbConnnection.UpdateItem(blogArticleId, mappedItem);
+            var mappedItem = _transferObjectMapping.MapToUpdateBlogArticleAccessObj(blogArticle);
+            _dbConnnection.UpdateItem(mappedItem);
         }
     }
 }

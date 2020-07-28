@@ -133,13 +133,82 @@ namespace Repositories.BlogArticle
             return blogArticleItems;
         }
 
-        public void UpdateItem(Guid blogArticleId, BlogArticleAccessObj blogArticle)
+        public void UpdateItem(UpdateBlogArticleAccessObj blogArticle)
+        {
+            
+        }
+        public void UpdateTitle(BlogArticleAccessObj blogArticle)
         {
             string connectionString = "UserID=postgres;Password=unearth_Anubis5;Host=localhost;Port=5432;Database=BloggyData;";
+
             using (var connection = new NpgsqlConnection(connectionString))
             {
+                    string sqlQuery = $"UPDATE blogarticle SET title = @Title WHERE blogarticleid = @BlogArticleId";
 
+                    var affectedRows = connection.Execute(sqlQuery, new
+                    {
+                        Title = blogArticle.Title,
+                        BlogArticleId = blogArticle.BlogArticleId
+                    });
             }
         }
+
+        public void UpdateSections(List<SectionAccessObj> sections)
+        {
+            string connectionString = "UserID=postgres;Password=unearth_Anubis5;Host=localhost;Port=5432;Database=BloggyData;";
+            
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                for(int i =0; i < sections.Count; i++)
+                {
+                    string sqlQuery = $"UPDATE section SET header = @Header, subheader = @Subheader WHERE sectionid = @SectionId";
+
+                    var affectedRows = connection.Execute(sqlQuery, new
+                    {
+                        Header = sections[i].Header,
+                        Subheader = sections[i].SubHeader,
+                        SectionId = sections[i].SectionId
+                    });
+                }
+            }
+        }
+
+        public void UpdateParagraphs(List<ParagraphAccessObj> paragraphs)
+        {
+            string connectionString = "UserID=postgres;Password=unearth_Anubis5;Host=localhost;Port=5432;Database=BloggyData;";
+
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                for (int i = 0; i < paragraphs.Count; i++)
+                {
+                    string sqlQuery = $"UPDATE section SET paragraphtextarea = @ParagrahtextArea WHERE paragraphid = @ParagraphId";
+
+                    var affectedRows = connection.Execute(sqlQuery, new
+                    {
+                        ParagrahtextArea = paragraphs[i].ParagraphTextArea,
+                        ParagraphId = paragraphs[i].ParagraphId
+                    });
+                }
+            }
+        }
+        public void UpdateImages(List<ImageAccessObj> images)
+        {
+            string connectionString = "UserID=postgres;Password=unearth_Anubis5;Host=localhost;Port=5432;Database=BloggyData;";
+
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                for (int i = 0; i < images.Count; i++)
+                {
+                    string sqlQuery = $"UPDATE section SET bytecode = @ByteCode WHERE imageid = @ImageId";
+
+                    var affectedRows = connection.Execute(sqlQuery, new
+                    {
+                        ByteCode = images[i].BytesImages,
+                        ImageId = images[i].ImageId
+                    });
+                }
+            }
+        }
+
     }
 }

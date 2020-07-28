@@ -20,6 +20,7 @@ namespace Bloggy.BehaviourTesting.StepDefinitions
         private HttpResponseMessage response;
         private BlogArticleTransferObj responseArticle;
         private BlogArticleViewModel submissionArticle;
+        private BlogArticlePackageTransferObj allItems;
 
         //CREATE blog article
         [When("I submit a blog article with the title (.*) and (\\d*) sections with (\\d*) images and (\\d*) paragraphs each")]
@@ -111,11 +112,11 @@ namespace Bloggy.BehaviourTesting.StepDefinitions
             response = "http://localhost:5000".AppendPathSegments("api", "v1", "blog-articles").GetJsonAsync().Result;
 
             Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
-            var items = JsonConvert.DeserializeObject<BlogArticlePackageTransferObj>(response.Content.ReadAsStringAsync().Result);
+            allItems = JsonConvert.DeserializeObject<BlogArticlePackageTransferObj>(response.Content.ReadAsStringAsync().Result);
 
-            Assert.IsNotNull(items.BlogArticles.SingleOrDefault(x => x.BlogArticleId == Guid.Parse(blogArticleId)));
-            Assert.IsNotNull(items.Sections.SingleOrDefault(x => x.SectionId == Guid.Parse(sectionId)));
-            Assert.IsNotNull(items.Paragraphs.SingleOrDefault(x => x.ParagraphId == Guid.Parse(paragraphId)));
+            Assert.IsNotNull(allItems.BlogArticles.SingleOrDefault(x => x.BlogArticleId == Guid.Parse(blogArticleId)));
+            Assert.IsNotNull(allItems.Sections.SingleOrDefault(x => x.SectionId == Guid.Parse(sectionId)));
+            Assert.IsNotNull(allItems.Paragraphs.SingleOrDefault(x => x.ParagraphId == Guid.Parse(paragraphId)));
         }
 
         [When("I update the blog article with id (.*) and sectionId (.*) and paragraphId (.*) and set paragraphTextArea to (.*)")]
@@ -125,10 +126,11 @@ namespace Bloggy.BehaviourTesting.StepDefinitions
             response = "http://localhost:5000".AppendPathSegments("api", "v1", "blog-articles").PutJsonAsync(model).Result;
         }
 
-        [Then("The blog article with id (.*) and sectionId (.*) and paragraphId (.*) should reflect the updated info with paragraphTextArea set to (.*)")]
-        public void ThenTheBlogArticleShouldReflectTheUpdate(string blogArticleId, string sectionId, string paragraphId, string paragraphTextArea)
+        [Then("The blog article with paragraphId (.*) should reflect the updated info with paragraphTextArea set to (.*)")]
+        public void ThenTheBlogArticleShouldReflectTheUpdate(string paragraphId, string paragraphTextArea)
         {
-
+            Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
+            Assert.AreEqual(allItems.Paragraphs.SingleOrDefault(x => x.ParagraphId == Guid.Parse(paragraphId)).ParagraphTextArea, paragraphTextArea);
         }
     }
 }

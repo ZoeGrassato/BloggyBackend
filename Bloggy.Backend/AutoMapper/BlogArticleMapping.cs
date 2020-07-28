@@ -22,6 +22,18 @@ namespace Bloggy.Backend.AutoMapper
             return finalItem;
         }
 
+        public UpdateBlogArticleTransferObj MapToUpdateBlogArticle(UpdateBlogArticleViewModel blogArticleViewModel)
+        {
+            var finalItem = new UpdateBlogArticleTransferObj()
+            {
+                Title = blogArticleViewModel.Title,
+                BlogArticleId = blogArticleViewModel.ArticleId,
+                Sections = MapSections(blogArticleViewModel.Sections)
+            };
+
+            return finalItem;
+        }
+
         public List<SectionTransferObj> MapSections(List<SectionViewModel> sectionViewModels)
         {
             var finalList = new List<SectionTransferObj>();
