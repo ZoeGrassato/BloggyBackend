@@ -79,7 +79,7 @@ namespace Bloggy.BehaviourTesting.Utils
             return rand.Next(0, 2) == 0;
         }
 
-        public static BlogArticleViewModel CreateCustomBlogArticle(string blogArticleId, string sectionId, string paragraphId, string paragraphTextArea)
+        public static UpdateBlogArticleViewModel CreateCustomBlogArticle(string blogArticleId, string sectionId, string paragraphId, string paragraphTextArea)
         {
             var paragraphs = new List<ParagraphViewModel>()
             {
@@ -101,10 +101,13 @@ namespace Bloggy.BehaviourTesting.Utils
                 }
             };
 
-            var final = new BlogArticleViewModel()
+            var final = new UpdateBlogArticleViewModel()
             {
                 ArticleId = Guid.Parse(blogArticleId),
-                Sections = sections
+                Sections = sections,
+                HasTitleChanged = false,
+                HasParagraphChanged = true,
+                HasSectionChanged = true
             };
 
             return final;

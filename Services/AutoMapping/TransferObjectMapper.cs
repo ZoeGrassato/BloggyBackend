@@ -7,7 +7,9 @@ using System.Text;
 
 namespace Services.AutoMapping
 {
-    public class AccessObjectMapping
+    //for items that need to be mapped in order to go through the API to the front end 
+    //mapping direction--> from accessObjects to transferObjects
+    public class TransferObjectMapper
     {
         public List<ParagraphTransferObj> MapToParagraphTransferObj (List<ParagraphAccessObj> paragraphAccessObj)
         {

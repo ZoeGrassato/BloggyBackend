@@ -8,6 +8,7 @@ using System.Linq.Expressions;
 using Microsoft.Extensions.Logging;
 using Repositories.BlogArticle.Models;
 using Repositories.BlogArticle.Models.JsonMappingModels;
+using Repositories.Exceptions;
 
 namespace Repositories.BlogArticle
 {
@@ -25,11 +26,18 @@ namespace Repositories.BlogArticle
             string sqlQuery = "INSERT INTO blogarticle(BlogId, Title) VALUES(@BlogId, @Title)";
             using (var connection = new NpgsqlConnection(connectionString))
             {
-                var affectedRows = connection.Execute(sqlQuery, new
+                try
                 {
-                    BlogId = Guid.NewGuid(),
-                    Title = blogArticle.Title
-                });
+                    var affectedRows = connection.Execute(sqlQuery, new
+                    {
+                        BlogId = Guid.NewGuid(),
+                        Title = blogArticle.Title
+                    });
+                } 
+                catch(Exception ex)
+                {
+                    throw new GeneralDatabaseException("A Db related error occured when trying to run your query", ex);
+                }
             }
         }
 
@@ -41,13 +49,20 @@ namespace Repositories.BlogArticle
             {
                 for (int i = 0; i < sections.Count; i++)
                 {
-                    var affectedRows = connection.Execute(sqlQuery, new
+                    try
                     {
-                        BlogId = currentBlogId,
-                        SectionId = Guid.NewGuid(),
-                        Header = sections[i].Header,
-                        SubHeader = sections[i].SubHeader
-                    });
+                        var affectedRows = connection.Execute(sqlQuery, new
+                        {
+                            BlogId = currentBlogId,
+                            SectionId = Guid.NewGuid(),
+                            Header = sections[i].Header,
+                            SubHeader = sections[i].SubHeader
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new GeneralDatabaseException("A Db related error occured when trying to run your query", ex);
+                    }
                 }
             }
         }
@@ -60,12 +75,19 @@ namespace Repositories.BlogArticle
             {
                 for (int i = 0; i < paragraphs.Count; i++)
                 {
-                    var affectedRows = connection.Execute(sqlQuery, new
+                    try
                     {
-                        ParagraphId = Guid.NewGuid(),
-                        ParagraphTextArea = paragraphs[i].ParagraphTextArea,
-                        SectionId = sectionId,
-                    });
+                        var affectedRows = connection.Execute(sqlQuery, new
+                        {
+                            ParagraphId = Guid.NewGuid(),
+                            ParagraphTextArea = paragraphs[i].ParagraphTextArea,
+                            SectionId = sectionId,
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new GeneralDatabaseException("A Db related error occured when trying to run your query", ex);
+                    }
                 }
             }
         }
@@ -90,7 +112,14 @@ namespace Repositories.BlogArticle
 
             using (var connection = new NpgsqlConnection(connectionString))
             {
-                
+                try
+                {
+                    
+                }
+                catch (Exception ex)
+                {
+                    throw new GeneralDatabaseException("A Db related error occured when trying to run your query", ex);
+                }
             }
         }
 
@@ -102,7 +131,14 @@ namespace Repositories.BlogArticle
             var blogArticleItems = new List<BlogArticleAccessObj>();
             using (var connection = new NpgsqlConnection(connectionString))
             {
-                blogArticleItems = (List<BlogArticleAccessObj>)connection.Query<BlogArticleAccessObj>(sqlQuery);
+                try
+                {
+                    blogArticleItems = (List<BlogArticleAccessObj>)connection.Query<BlogArticleAccessObj>(sqlQuery);
+                }
+                catch (Exception ex)
+                {
+                    throw new GeneralDatabaseException("A Db related error occured when trying to run your query", ex);
+                }
             }
             return blogArticleItems;
         }
@@ -115,7 +151,15 @@ namespace Repositories.BlogArticle
             var blogArticleItems = new List<SectionAccessObj>();
             using (var connection = new NpgsqlConnection(connectionString))
             {
-                blogArticleItems = (List<SectionAccessObj>)connection.Query<SectionAccessObj>(sqlQuery);
+                try
+                {
+                    blogArticleItems = (List<SectionAccessObj>)connection.Query<SectionAccessObj>(sqlQuery);
+                }
+                catch (Exception ex)
+                {
+                    throw new GeneralDatabaseException("A Db related error occured when trying to run your query", ex);
+                }
+                
             }
             return blogArticleItems;
         }
@@ -128,32 +172,47 @@ namespace Repositories.BlogArticle
             var blogArticleItems = new List<ParagraphAccessObj>();
             using (var connection = new NpgsqlConnection(connectionString))
             {
-                blogArticleItems = (List<ParagraphAccessObj>)connection.Query<ParagraphAccessObj>(sqlQuery);
+                try
+                {
+                    blogArticleItems = (List<ParagraphAccessObj>)connection.Query<ParagraphAccessObj>(sqlQuery);
+                }
+                catch (Exception ex)
+                {
+                    throw new GeneralDatabaseException("A Db related error occured when trying to run your query", ex);
+                }
             }
             return blogArticleItems;
         }
 
         public void UpdateItem(UpdateBlogArticleAccessObj blogArticle)
         {
-            
+            if (blogArticle.HasSectionChanged) UpdateSections(blogArticle.Sections, blogArticle.HasParagraphChanged, blogArticle.HasImageChanged);
+            if (blogArticle.HasTitleChanged) UpdateTitle(blogArticle);
         }
-        public void UpdateTitle(BlogArticleAccessObj blogArticle)
+        public void UpdateTitle(UpdateBlogArticleAccessObj blogArticle)
         {
             string connectionString = "UserID=postgres;Password=unearth_Anubis5;Host=localhost;Port=5432;Database=BloggyData;";
 
             using (var connection = new NpgsqlConnection(connectionString))
             {
+                try
+                {
                     string sqlQuery = $"UPDATE blogarticle SET title = @Title WHERE blogarticleid = @BlogArticleId";
 
                     var affectedRows = connection.Execute(sqlQuery, new
                     {
                         Title = blogArticle.Title,
-                        BlogArticleId = blogArticle.BlogArticleId
+                        BlogArticleId = blogArticle.ArticleId
                     });
+                }
+                catch (Exception ex)
+                {
+                    throw new GeneralDatabaseException("A Db related error occured when trying to run your query", ex);
+                }
             }
         }
 
-        public void UpdateSections(List<SectionAccessObj> sections)
+        public void UpdateSections(List<SectionAccessObj> sections, bool updateParagraphs, bool updateImages)
         {
             string connectionString = "UserID=postgres;Password=unearth_Anubis5;Host=localhost;Port=5432;Database=BloggyData;";
             
@@ -161,14 +220,24 @@ namespace Repositories.BlogArticle
             {
                 for(int i =0; i < sections.Count; i++)
                 {
-                    string sqlQuery = $"UPDATE section SET header = @Header, subheader = @Subheader WHERE sectionid = @SectionId";
-
-                    var affectedRows = connection.Execute(sqlQuery, new
+                    try
                     {
-                        Header = sections[i].Header,
-                        Subheader = sections[i].SubHeader,
-                        SectionId = sections[i].SectionId
-                    });
+                        string sqlQuery = $"UPDATE section SET header = @Header AS Json, subheader = @Subheader WHERE sectionid = @SectionId";
+
+                        var affectedRows = connection.Execute(sqlQuery, new
+                        {
+                            Header = sections[i].Header,
+                            Subheader = sections[i].SubHeader,
+                            SectionId = sections[i].SectionId
+                        });
+
+                        if (updateParagraphs) UpdateParagraphs(sections[i].Paragraphs);
+                        if (updateImages) UpdateImages(sections[i].Images);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new GeneralDatabaseException("A Db related error occured when trying to run your query", ex);
+                    }
                 }
             }
         }
@@ -181,13 +250,20 @@ namespace Repositories.BlogArticle
             {
                 for (int i = 0; i < paragraphs.Count; i++)
                 {
-                    string sqlQuery = $"UPDATE section SET paragraphtextarea = @ParagrahtextArea WHERE paragraphid = @ParagraphId";
-
-                    var affectedRows = connection.Execute(sqlQuery, new
+                    try
                     {
-                        ParagrahtextArea = paragraphs[i].ParagraphTextArea,
-                        ParagraphId = paragraphs[i].ParagraphId
-                    });
+                        string sqlQuery = $"UPDATE section SET paragraphtextarea = @ParagrahtextArea WHERE paragraphid = @ParagraphId";
+
+                        var affectedRows = connection.Execute(sqlQuery, new
+                        {
+                            ParagrahtextArea = paragraphs[i].ParagraphTextArea,
+                            ParagraphId = paragraphs[i].ParagraphId
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new GeneralDatabaseException("A Db related error occured when trying to run your query", ex);
+                    }
                 }
             }
         }
@@ -199,16 +275,22 @@ namespace Repositories.BlogArticle
             {
                 for (int i = 0; i < images.Count; i++)
                 {
-                    string sqlQuery = $"UPDATE section SET bytecode = @ByteCode WHERE imageid = @ImageId";
-
-                    var affectedRows = connection.Execute(sqlQuery, new
+                    try
                     {
-                        ByteCode = images[i].BytesImages,
-                        ImageId = images[i].ImageId
-                    });
+                        string sqlQuery = $"UPDATE section SET bytecode = @ByteCode WHERE imageid = @ImageId";
+
+                        var affectedRows = connection.Execute(sqlQuery, new
+                        {
+                            ByteCode = images[i].BytesImages,
+                            ImageId = images[i].ImageId
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new GeneralDatabaseException("A Db related error occured when trying to run your query", ex);
+                    }
                 }
             }
         }
-
     }
 }

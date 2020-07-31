@@ -28,7 +28,11 @@ namespace Bloggy.Backend.AutoMapper
             {
                 Title = blogArticleViewModel.Title,
                 BlogArticleId = blogArticleViewModel.ArticleId,
-                Sections = MapSections(blogArticleViewModel.Sections)
+                Sections = MapSections(blogArticleViewModel.Sections),
+                HasImageChanged = blogArticleViewModel.HasImageChanged,
+                HasParagraphChanged = blogArticleViewModel.HasParagraphChanged,
+                HasSectionChanged = blogArticleViewModel.HasSectionChanged,
+                HasTitleChanged = blogArticleViewModel.HasTitleChanged
             };
 
             return finalItem;
