@@ -26,24 +26,29 @@ namespace Services
         }
         public void Add(BlogArticleTransferObj blogArticle)
         {
-            var mappedItem = _transferObjectMapping.MapToBlogArticleAccessObj(blogArticle);
+            var mappedBlogArticle = _transferObjectMapping.MapToBlogArticleAccessObj(blogArticle);
             var mappedSections = new List<SectionJsonTransferObj>();
-
-            _dbConnnection.AddBlogArticle(mappedItem);
             
+            var blogUniqueIdentifier = Guid.NewGuid();
+            var sectionUniqueIdentifier = Guid.NewGuid();
+
+            //add mapped blog article
+            _dbConnnection.AddBlogArticle(mappedBlogArticle, blogUniqueIdentifier);
+
             foreach (var item in blogArticle.Sections)
             {
-                Guid blogArticleId = Guid.NewGuid();
+                //add this mapped section to mapped list
                 mappedSections.Add(_jsonMapping.MapToSectionJson(item));
 
-                _dbConnnection.AddParagraphs(_transferObjectMapping
-                    .MapToParagraphAccessObj(item.Paragraphs), blogArticleId);
+                //add mapped paragraphs for this section
+                _dbConnnection.AddParagraphs(_transferObjectMapping.MapToParagraphAccessObj(item.Paragraphs), sectionUniqueIdentifier);
 
-                _dbConnnection.AddImages(_transferObjectMapping
-                    .MapToImageAccessObj(item.Images));
+                //add mapped images for this section
+                _dbConnnection.AddImages(_transferObjectMapping.MapToImageAccessObj(item.Images));
             }
-            _dbConnnection.AddSections(_transferObjectMapping
-                .MapToJsonSectionAccessObj(mappedSections), Guid.NewGuid());
+            //finally add the list of sections for this blog article
+            var mappedSectionsForRepo = _transferObjectMapping.MapToJsonSectionAccessObj(mappedSections);
+            _dbConnnection.AddSections(mappedSectionsForRepo, blogUniqueIdentifier, sectionUniqueIdentifier);
         }
         public void Delete(Guid blogArticleId)
         {

@@ -9,7 +9,7 @@ namespace Repositories.BlogArticle
 {
     public interface IBlogArticleRepository
     {
-        void AddBlogArticle(BlogArticleAccessObj blogArticle);
+        void AddBlogArticle(BlogArticleAccessObj blogArticle, Guid uniqueIdentifier);
         void AddParagraphs(List<ParagraphAccessObj> paragraphs, Guid sectionId);
         void AddImages(List<ImageAccessObj> images);
         void DeleteBlogArticle(Guid blogArticleId, Guid sectionId);
@@ -17,6 +17,6 @@ namespace Repositories.BlogArticle
         List<SectionAccessObj> GetAllSections();
         List<ParagraphAccessObj> GetAllParagraphs();
         void UpdateItem(UpdateBlogArticleAccessObj blogArticle);
-        void AddSections(List<SectionJsonAccessObj> sections, Guid currentBlogId);
+        void AddSections(List<SectionJsonAccessObj> sections, Guid currentBlogId, Guid sectionId);
     }
 }

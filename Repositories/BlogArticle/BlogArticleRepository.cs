@@ -9,6 +9,8 @@ using Microsoft.Extensions.Logging;
 using Repositories.BlogArticle.Models;
 using Repositories.BlogArticle.Models.JsonMappingModels;
 using Repositories.Exceptions;
+using Newtonsoft.Json;
+using Repositories.Serialization;
 
 namespace Repositories.BlogArticle
 {
@@ -20,7 +22,7 @@ namespace Repositories.BlogArticle
             _logger = logger;
         }
 
-        public void AddBlogArticle(BlogArticleAccessObj blogArticle)
+        public void AddBlogArticle(BlogArticleAccessObj blogArticle, Guid uniqueIdentifier)
         {
             string connectionString = "UserID=postgres;Password=unearth_Anubis5;Host=localhost;Port=5432;Database=BloggyData;";
             string sqlQuery = "INSERT INTO blogarticle(BlogId, Title) VALUES(@BlogId, @Title)";
@@ -30,7 +32,7 @@ namespace Repositories.BlogArticle
                 {
                     var affectedRows = connection.Execute(sqlQuery, new
                     {
-                        BlogId = Guid.NewGuid(),
+                        BlogId = uniqueIdentifier,
                         Title = blogArticle.Title
                     });
                 } 
@@ -41,7 +43,7 @@ namespace Repositories.BlogArticle
             }
         }
 
-        public void AddSections(List<SectionJsonAccessObj> sections, Guid currentBlogId)
+        public void AddSections(List<SectionJsonAccessObj> sections, Guid currentBlogId, Guid sectionId)
         {
             string connectionString = "UserID=postgres;Password=unearth_Anubis5;Host=localhost;Port=5432;Database=BloggyData;";
             string sqlQuery = "INSERT INTO section(BlogId, SectionId, Header, SubHeader) VALUES(@BlogId, @SectionId, CAST(@Header as json), CAST(@SubHeader as json))";
@@ -54,7 +56,7 @@ namespace Repositories.BlogArticle
                         var affectedRows = connection.Execute(sqlQuery, new
                         {
                             BlogId = currentBlogId,
-                            SectionId = Guid.NewGuid(),
+                            SectionId = sectionId,
                             Header = sections[i].Header,
                             SubHeader = sections[i].SubHeader
                         });
@@ -220,14 +222,15 @@ namespace Repositories.BlogArticle
             {
                 for(int i =0; i < sections.Count; i++)
                 {
+                    var item = SerializationManager.Serialize(sections[i].Header);
                     try
                     {
-                        string sqlQuery = $"UPDATE section SET header = @Header AS Json, subheader = @Subheader WHERE sectionid = @SectionId";
+                        string sqlQuery = $"UPDATE section SET header = @Header, subheader = @Subheader WHERE sectionid = @SectionId";
 
                         var affectedRows = connection.Execute(sqlQuery, new
                         {
-                            Header = sections[i].Header,
-                            Subheader = sections[i].SubHeader,
+                            Header = SerializationManager.Serialize(sections[i].Header),
+                            //Subheader = SerializationManager.Serialize(sections[i].SubHeader),
                             SectionId = sections[i].SectionId
                         });
 
