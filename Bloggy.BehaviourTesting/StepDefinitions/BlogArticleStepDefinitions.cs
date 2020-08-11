@@ -129,6 +129,9 @@ namespace Bloggy.BehaviourTesting.StepDefinitions
         [Then("The blog article with paragraphId (.*) should reflect the updated info with paragraphTextArea set to (.*)")]
         public void ThenTheBlogArticleShouldReflectTheUpdate(string paragraphId, string paragraphTextArea)
         {
+            response = "http://localhost:5000".AppendPathSegments("api", "v1", "blog-articles").GetJsonAsync().Result;
+            allItems = JsonConvert.DeserializeObject<BlogArticlePackageTransferObj>(response.Content.ReadAsStringAsync().Result);
+
             Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
             Assert.AreEqual(allItems.Paragraphs.SingleOrDefault(x => x.ParagraphId == Guid.Parse(paragraphId)).ParagraphTextArea, paragraphTextArea);
         }

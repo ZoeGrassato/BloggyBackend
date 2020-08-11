@@ -97,14 +97,14 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 this.ScenarioStart();
 #line 6
- testRunner.When("I submit a blog article with the title Hello and 2 sections with 2 images and 4 p" +
+ testRunner.When("I submit a blog article with the title Hello and 1 sections with 1 images and 1 p" +
                         "aragraphs each", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 7
  testRunner.Then("My blog article should exist within bloggy with the title Hello", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
 #line 8
- testRunner.And("My blog article has 2 sections with 2 images and 4 paragraphs each", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("My blog article has 1 sections with 1 images and 1 paragraphs each", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
 #line 9
  testRunner.And("My blog article has the correct data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
@@ -139,19 +139,19 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 this.ScenarioStart();
-                TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
-                            "id",
-                            "..."});
 #line 13
- testRunner.And("I have a blog article with the following information", ((string)(null)), table1, "And ");
+ testRunner.Given("I have a blog article with the id 0537b53f-67ab-4520-819d-394663934ddf and sectio" +
+                        "nId 5f89a27c-676c-4575-a03f-de6f091a5fa5 and paragraphId 8622825b-b0e1-4d96-8ee5" +
+                        "-6d449fab2873", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
-                TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
-                            "id"});
+#line 14
+ testRunner.When("I update the blog article with id 0537b53f-67ab-4520-819d-394663934ddf and sectio" +
+                        "nId 5f89a27c-676c-4575-a03f-de6f091a5fa5 and paragraphId 8622825b-b0e1-4d96-8ee5" +
+                        "-6d449fab2873 and set paragraphTextArea to AGAINUPDATED", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
 #line 15
- testRunner.When("I update the blog article with the following information", ((string)(null)), table2, "When ");
-#line hidden
-#line 17
- testRunner.Then("The blog article should reflect the updated info in bloggy", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("The blog article with paragraphId 8622825b-b0e1-4d96-8ee5-6d449fab2873 should ref" +
+                        "lect the updated info with paragraphTextArea set to AGAINUPDATED", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

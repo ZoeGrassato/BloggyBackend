@@ -81,7 +81,7 @@ namespace Repositories.BlogArticle
                     {
                         var affectedRows = connection.Execute(sqlQuery, new
                         {
-                            ParagraphId = Guid.NewGuid(),
+                            ParagraphId = paragraphs[i].ParagraphId,
                             ParagraphTextArea = paragraphs[i].ParagraphTextArea,
                             SectionId = sectionId,
                         });
@@ -155,7 +155,7 @@ namespace Repositories.BlogArticle
             {
                 try
                 {
-                    blogArticleItems = (List<SectionAccessObj>)connection.Query<SectionAccessObj>(sqlQuery);
+                    var items  = connection.Query<SectionAccessObj>(sqlQuery);
                 }
                 catch (Exception ex)
                 {
@@ -230,7 +230,7 @@ namespace Repositories.BlogArticle
                         var affectedRows = connection.Execute(sqlQuery, new
                         {
                             Header = SerializationManager.Serialize(sections[i].Header),
-                            //Subheader = SerializationManager.Serialize(sections[i].SubHeader),
+                            Subheader = SerializationManager.Serialize(sections[i].SubHeader),
                             SectionId = sections[i].SectionId
                         });
 
@@ -255,7 +255,7 @@ namespace Repositories.BlogArticle
                 {
                     try
                     {
-                        string sqlQuery = $"UPDATE section SET paragraphtextarea = @ParagrahtextArea WHERE paragraphid = @ParagraphId";
+                        string sqlQuery = $"UPDATE paragraph SET paragraphtextarea = @ParagrahtextArea WHERE paragraphid = @ParagraphId";
 
                         var affectedRows = connection.Execute(sqlQuery, new
                         {
@@ -280,7 +280,7 @@ namespace Repositories.BlogArticle
                 {
                     try
                     {
-                        string sqlQuery = $"UPDATE section SET bytecode = @ByteCode WHERE imageid = @ImageId";
+                        string sqlQuery = $"UPDATE image SET bytecode = @ByteCode WHERE imageid = @ImageId";
 
                         var affectedRows = connection.Execute(sqlQuery, new
                         {

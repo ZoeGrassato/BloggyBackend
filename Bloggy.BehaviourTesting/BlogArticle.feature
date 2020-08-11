@@ -3,13 +3,14 @@
 
 Scenario: As a user I create a blog article
 	#Given I am a user with access to bloggy # TODO: add authorization
-	When I submit a blog article with the title Hello and 2 sections with 2 images and 4 paragraphs each
+	When I submit a blog article with the title Hello and 1 sections with 1 images and 1 paragraphs each
 	Then My blog article should exist within bloggy with the title Hello
-	And My blog article has 2 sections with 2 images and 4 paragraphs each
+	And My blog article has 1 sections with 1 images and 1 paragraphs each
 	And My blog article has the correct data
 
 Scenario: As a user I update a blog article
-	#Given I am a user with access to bloggy
-	Given I have a blog article with the id 96054de8-8b5c-447b-9185-eddc5d9fcc0b and sectionId 16054de8-8b5c-447b-9185-eddc5d9fcc0b and paragraphId 17054de8-8b5c-447b-9185-eddc5d9fcc0b
-	When I update the blog article with id 96054de8-8b5c-447b-9185-eddc5d9fcc0b and sectionId 16054de8-8b5c-447b-9185-eddc5d9fcc0 and paragraphId 17054de8-8b5c-447b-9185-eddc5d9fcc0b and set paragraphTextArea to updatedParagraphTextArea
-	Then The blog article with paragraphId 17054de8-8b5c-447b-9185-eddc5d9fcc0b should reflect the updated info with paragraphTextArea set to updatedParagraphTextArea
+	#Given I am a user with access to bloggy # TODO: add authorization
+	Given I have a blog article with the id 0537b53f-67ab-4520-819d-394663934ddf and sectionId 5f89a27c-676c-4575-a03f-de6f091a5fa5 and paragraphId 8622825b-b0e1-4d96-8ee5-6d449fab2873
+	When I update the blog article with id 0537b53f-67ab-4520-819d-394663934ddf and sectionId 5f89a27c-676c-4575-a03f-de6f091a5fa5 and paragraphId 8622825b-b0e1-4d96-8ee5-6d449fab2873 and set paragraphTextArea to AGAINUPDATED
+	Then The blog article with paragraphId 8622825b-b0e1-4d96-8ee5-6d449fab2873 should reflect the updated info with paragraphTextArea set to AGAINUPDATED
+

@@ -12,6 +12,7 @@ namespace Bloggy.BehaviourTesting.Utils
         {
             return new BlogArticleViewModel
             {
+                ArticleId = Guid.Parse("0537b53f-67ab-4520-819d-394663934ddf"),
                 Title = title,
                 Sections = GenerateSections(sectionCount, paragraphCount, imageCount)
             };
@@ -26,6 +27,8 @@ namespace Bloggy.BehaviourTesting.Utils
             {
                 sections.Add(new SectionViewModel
                 {
+                    SectionId = Guid.Parse("5f89a27c-676c-4575-a03f-de6f091a5fa5"),
+                    BlogId = Guid.Parse("0537b53f-67ab-4520-819d-394663934ddf"),
                     Header = new HeaderViewModel
                     {
                         HeaderText = headerText.Generate(),
@@ -40,7 +43,7 @@ namespace Bloggy.BehaviourTesting.Utils
                     },
                     Images = GenerateImages(imageCount),
                     Paragraphs = GenerateParagraphs(paragraphCount)
-                });
+                }); 
             }
             return sections;
         }
@@ -67,7 +70,9 @@ namespace Bloggy.BehaviourTesting.Utils
             {
                 paragraphs.Add(new ParagraphViewModel
                 {
-                    ParagraphTextArea = paragraph.Generate()
+                    ParagraphId = Guid.Parse("8622825b-b0e1-4d96-8ee5-6d449fab2873"),
+                    ParagraphTextArea = paragraph.Generate(),
+                    SectionId = Guid.Parse("5f89a27c-676c-4575-a03f-de6f091a5fa5")
                 });
             }
             return paragraphs;
