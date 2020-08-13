@@ -145,25 +145,24 @@ namespace Repositories.BlogArticle
             return blogArticleItems;
         }
 
-        public List<SectionAccessObj> GetAllSections()
+        public List<GetAllSectionsAccessObject> GetAllSections()
         {
             string connectionString = "UserID=postgres;Password=unearth_Anubis5;Host=localhost;Port=5432;Database=BloggyData;";
             string sqlQuery = "SELECT * FROM section";
 
-            var blogArticleItems = new List<SectionAccessObj>();
+            var sections = new List<GetAllSectionsAccessObject>();
             using (var connection = new NpgsqlConnection(connectionString))
             {
                 try
                 {
-                    var items  = connection.Query<SectionAccessObj>(sqlQuery);
+                    sections = (List<GetAllSectionsAccessObject>)connection.Query<GetAllSectionsAccessObject>(sqlQuery);
                 }
                 catch (Exception ex)
                 {
                     throw new GeneralDatabaseException("A Db related error occured when trying to run your query", ex);
                 }
-                
             }
-            return blogArticleItems;
+            return sections;
         }
 
         public List<ParagraphAccessObj> GetAllParagraphs()
@@ -171,19 +170,19 @@ namespace Repositories.BlogArticle
             string connectionString = "UserID=postgres;Password=unearth_Anubis5;Host=localhost;Port=5432;Database=BloggyData;";
             string sqlQuery = "SELECT * FROM paragraph";
 
-            var blogArticleItems = new List<ParagraphAccessObj>();
+            var paragraphs = new List<ParagraphAccessObj>();
             using (var connection = new NpgsqlConnection(connectionString))
             {
                 try
                 {
-                    blogArticleItems = (List<ParagraphAccessObj>)connection.Query<ParagraphAccessObj>(sqlQuery);
+                    paragraphs = (List<ParagraphAccessObj>)connection.Query<ParagraphAccessObj>(sqlQuery);
                 }
                 catch (Exception ex)
                 {
                     throw new GeneralDatabaseException("A Db related error occured when trying to run your query", ex);
                 }
             }
-            return blogArticleItems;
+            return paragraphs;
         }
 
         public void UpdateItem(UpdateBlogArticleAccessObj blogArticle)

@@ -11,5 +11,6 @@ namespace Services.BlogArticle.Models
         public SubHeaderTransferObj SubHeader { get; set; }
         public List<ParagraphTransferObj> Paragraphs { get; set; }
         public List<ImageTransferObj> Images { get; set; }
+        public Guid BlogId { get; set; }
     }
 }

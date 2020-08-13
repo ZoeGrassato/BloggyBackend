@@ -14,7 +14,7 @@ namespace Repositories.BlogArticle
         void AddImages(List<ImageAccessObj> images);
         void DeleteBlogArticle(Guid blogArticleId, Guid sectionId);
         List<BlogArticleAccessObj> GetAllBlogArticles();
-        List<SectionAccessObj> GetAllSections();
+        List<GetAllSectionsAccessObject> GetAllSections();
         List<ParagraphAccessObj> GetAllParagraphs();
         void UpdateItem(UpdateBlogArticleAccessObj blogArticle);
         void AddSections(List<SectionJsonAccessObj> sections, Guid currentBlogId, Guid sectionId);

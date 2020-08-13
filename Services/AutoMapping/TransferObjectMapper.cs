@@ -3,6 +3,7 @@ using Repositories.BlogArticle.Models;
 using Services.BlogArticle.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Services.AutoMapping
@@ -11,7 +12,24 @@ namespace Services.AutoMapping
     //mapping direction--> from accessObjects to transferObjects
     public class TransferObjectMapper
     {
-        public List<ParagraphTransferObj> MapToParagraphTransferObj (List<ParagraphAccessObj> paragraphAccessObj)
+        public BlogArticlePackageTransferObj MapToPackageTransferObj(List<SectionTransferObj> sections, 
+                                                                    List<ParagraphTransferObj> paragraphs, 
+                                                                    List<ImageTransferObj> images, 
+                                                                    List<BlogArticleTransferObj> blogArticles )
+        {
+            var final = new BlogArticlePackageTransferObj();
+            foreach(var blogArticle in blogArticles)
+            {
+                var section = 
+            }
+        }
+
+        public MapToPackageSection(List<SectionTransferObj>)
+        {
+
+        }
+
+        public List<ParagraphTransferObj> MapToParagraphTransferObj(List<ParagraphAccessObj> paragraphs)
         {
             var config = new MapperConfiguration(cfg =>
             {
@@ -19,12 +37,12 @@ namespace Services.AutoMapping
             });
 
             IMapper mapper = config.CreateMapper();
-            var source = paragraphAccessObj;
+            var source = paragraphs;
             var final = mapper.Map<List<ParagraphAccessObj>, List<ParagraphTransferObj>>(source);
             return final;
         }
 
-        public List<ImageTransferObj> MapToImageTransferObj (List<ImageAccessObj> paragraphAccessObj)
+        public List<ImageTransferObj> MapToImageTransferObj(List<ImageAccessObj> images)
         {
             var config = new MapperConfiguration(cfg =>
             {
@@ -32,12 +50,12 @@ namespace Services.AutoMapping
             });
 
             IMapper mapper = config.CreateMapper();
-            var source = paragraphAccessObj;
+            var source = images;
             var final = mapper.Map<List<ImageAccessObj>, List<ImageTransferObj>>(source);
             return final;
         }
 
-        public List<SectionTransferObj> MapToSectionTransferObj (List<SectionAccessObj> paragraphAccessObj)
+        public List<SectionTransferObj> MapToSectionTransferObj(List<SectionAccessObj> sections)
         {
             var config = new MapperConfiguration(cfg =>
             {
@@ -45,12 +63,12 @@ namespace Services.AutoMapping
             });
 
             IMapper mapper = config.CreateMapper();
-            var source = paragraphAccessObj;
+            var source = sections;
             var final = mapper.Map<List<SectionAccessObj>, List<SectionTransferObj>>(source);
             return final;
         }
 
-        public List<BlogArticleTransferObj> MapToBlogArticleTransferObj (List<BlogArticleAccessObj> paragraphAccessObj)
+        public List<BlogArticleTransferObj> MapToBlogArticleTransferObj(List<BlogArticleAccessObj> blogArticles)
         {
             var config = new MapperConfiguration(cfg =>
             {
@@ -58,8 +76,21 @@ namespace Services.AutoMapping
             });
 
             IMapper mapper = config.CreateMapper();
-            var source = paragraphAccessObj;
+            var source = blogArticles;
             var final = mapper.Map<List<BlogArticleAccessObj>, List<BlogArticleTransferObj>>(source);
+            return final;
+        }
+
+        public List<SectionTransferObj> MapFromStringSectionTransferObj(List<GetAllSectionsAccessObject> sections)
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<List<GetAllSectionsAccessObject>, List<SectionTransferObj>>();
+            });
+
+            IMapper mapper = config.CreateMapper();
+            var source = sections;
+            var final = mapper.Map<List<GetAllSectionsAccessObject>, List<SectionTransferObj>>(source);
             return final;
         }
     }

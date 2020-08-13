@@ -8,5 +8,6 @@ namespace Repositories.BlogArticle.Models
     {
         public Guid BlogArticleId { get; set; }
         public string Title { get; set; }
+        public List<SectionAccessObj> Sections { get; set; }
     }
 }

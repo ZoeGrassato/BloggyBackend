@@ -14,7 +14,7 @@ namespace Services
     public class BlogService : IBlogService
     {
         private JsonMapping _jsonMapping;
-        private AccessObjectMapper _transferObjectMapping = new AccessObjectMapper();
+        private AccessObjectMapper _accessObjectMapper = new AccessObjectMapper();
         private TransferObjectMapper _accessObjectMapping = new TransferObjectMapper();
         private IBlogArticleRepository _dbConnnection;
         private ILogger _logger;
@@ -26,7 +26,7 @@ namespace Services
         }
         public void Add(BlogArticleTransferObj blogArticle)
         {
-            var mappedBlogArticle = _transferObjectMapping.MapToBlogArticleAccessObj(blogArticle);
+            var mappedBlogArticle = _accessObjectMapper.MapToBlogArticleAccessObj(blogArticle);
             var mappedSections = new List<SectionJsonTransferObj>();
             
             var blogUniqueIdentifier = Guid.NewGuid();
@@ -41,13 +41,13 @@ namespace Services
                 mappedSections.Add(_jsonMapping.MapToSectionJson(item));
 
                 //add mapped paragraphs for this section
-                _dbConnnection.AddParagraphs(_transferObjectMapping.MapToParagraphAccessObj(item.Paragraphs), sectionUniqueIdentifier);
+                _dbConnnection.AddParagraphs(_accessObjectMapper.MapToParagraphAccessObj(item.Paragraphs), sectionUniqueIdentifier);
 
                 //add mapped images for this section
-                _dbConnnection.AddImages(_transferObjectMapping.MapToImageAccessObj(item.Images));
+                _dbConnnection.AddImages(_accessObjectMapper.MapToImageAccessObj(item.Images));
             }
             //finally add the list of sections for this blog article
-            var mappedSectionsForRepo = _transferObjectMapping.MapToJsonSectionAccessObj(mappedSections);
+            var mappedSectionsForRepo = _accessObjectMapper.MapToJsonSectionAccessObj(mappedSections);
             _dbConnnection.AddSections(mappedSectionsForRepo, blogUniqueIdentifier, sectionUniqueIdentifier);
         }
         public void Delete(Guid blogArticleId)
@@ -58,21 +58,19 @@ namespace Services
         public BlogArticlePackageTransferObj GetBlogArticles()
         {
             var blogArticles = _dbConnnection.GetAllBlogArticles();
-            var sectionItems = _dbConnnection.GetAllSections();
+            var sections = _dbConnnection.GetAllSections();
             var paragraphItems = _dbConnnection.GetAllParagraphs();
 
-            var finalModel = new BlogArticlePackageTransferObj
-            {
-                Sections = _accessObjectMapping.MapToSectionTransferObj(sectionItems), 
-                Paragraphs= _accessObjectMapping.MapToParagraphTransferObj(paragraphItems), 
-                BlogArticles = _accessObjectMapping.MapToBlogArticleTransferObj(blogArticles)
-            };
-            return finalModel;
+            var temp = new BlogArticlePackageTransferObj();
+            var 
+
+            
+            return temp;
         }
 
         public void Update(UpdateBlogArticleTransferObj blogArticle)
         {
-            var mappedItem = _transferObjectMapping.MapToUpdateBlogArticleAccessObj(blogArticle);
+            var mappedItem = _accessObjectMapper.MapToUpdateBlogArticleAccessObj(blogArticle);
             _dbConnnection.UpdateItem(mappedItem);
         }
     }
