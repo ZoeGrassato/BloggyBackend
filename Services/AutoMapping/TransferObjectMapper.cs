@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Repositories.BlogArticle.Models;
 using Services.BlogArticle.Models;
+using Services.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,25 +21,35 @@ namespace Services.AutoMapping
             var final = new BlogArticlePackageTransferObj();
             foreach(var blogArticle in blogArticles)
             {
-                var section = 
+                blogArticle.Sections = MapParagraphsAndImagesForSection(sections.Where(x => x.BlogId == blogArticle.BlogArticleId).ToList(), paragraphs, images);
+                final.BlogArticles.Add(blogArticle);
             }
+            return final;
         }
 
-        public MapToPackageSection(List<SectionTransferObj>)
+        public List<SectionTransferObj> MapParagraphsAndImagesForSection(List<SectionTransferObj> sections, List<ParagraphTransferObj> paragraphs, List<ImageTransferObj> images)
         {
-
+            foreach(var section in sections)
+            {
+                section.Paragraphs = paragraphs.Where(x => x.SectionId == section.SectionId).ToList();
+                section.Images = null;
+            }
+            return sections;
         }
 
         public List<ParagraphTransferObj> MapToParagraphTransferObj(List<ParagraphAccessObj> paragraphs)
         {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<List<ParagraphAccessObj>, List<ParagraphTransferObj>>();
-            });
+            var final = new List<ParagraphTransferObj>();
 
-            IMapper mapper = config.CreateMapper();
-            var source = paragraphs;
-            var final = mapper.Map<List<ParagraphAccessObj>, List<ParagraphTransferObj>>(source);
+            foreach (var paragraph in paragraphs)
+            {
+                final.Add(new ParagraphTransferObj()
+                { 
+                    ParagraphId = paragraph.ParagraphId, 
+                    ParagraphTextArea = paragraph.ParagraphTextArea, 
+                    SectionId = paragraph.SectionId 
+                });
+            }
             return final;
         }
 
@@ -70,27 +81,31 @@ namespace Services.AutoMapping
 
         public List<BlogArticleTransferObj> MapToBlogArticleTransferObj(List<BlogArticleAccessObj> blogArticles)
         {
-            var config = new MapperConfiguration(cfg =>
+            var final = new List<BlogArticleTransferObj>();
+            foreach(var item in blogArticles)
             {
-                cfg.CreateMap<List<BlogArticleAccessObj>, List<BlogArticleTransferObj>>();
-            });
+                final.Add(new BlogArticleTransferObj() { BlogArticleId = item.BlogId, Sections = null, Title = item.Title });
+            }
 
-            IMapper mapper = config.CreateMapper();
-            var source = blogArticles;
-            var final = mapper.Map<List<BlogArticleAccessObj>, List<BlogArticleTransferObj>>(source);
             return final;
         }
 
-        public List<SectionTransferObj> MapFromStringSectionTransferObj(List<GetAllSectionsAccessObject> sections)
+        public List<SectionTransferObj> MapFromGetAllSectionAccessObj(List<GetAllSectionsAccessObject> sections)
         {
-            var config = new MapperConfiguration(cfg =>
+            var final = new List<SectionTransferObj>();
+            foreach (var item in sections)
             {
-                cfg.CreateMap<List<GetAllSectionsAccessObject>, List<SectionTransferObj>>();
-            });
+                final.Add(new SectionTransferObj()
+                {
+                    SectionId = item.SectionId,
+                    BlogId = item.BlogId,
+                    Header = SerializationManager.Deserialize<HeaderTransferObj>(item.Header),
+                    SubHeader = SerializationManager.Deserialize<SubHeaderTransferObj>(item.Subheader),
+                    Images = null,
+                    Paragraphs = null
+                });
+            }
 
-            IMapper mapper = config.CreateMapper();
-            var source = sections;
-            var final = mapper.Map<List<GetAllSectionsAccessObject>, List<SectionTransferObj>>(source);
             return final;
         }
     }

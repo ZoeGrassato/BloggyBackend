@@ -6,7 +6,7 @@ namespace Repositories.BlogArticle.Models
 {
     public class BlogArticleAccessObj
     {
-        public Guid BlogArticleId { get; set; }
+        public Guid BlogId { get; set; }
         public string Title { get; set; }
         public List<SectionAccessObj> Sections { get; set; }
     }

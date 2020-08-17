@@ -15,7 +15,7 @@ namespace Services
     {
         private JsonMapping _jsonMapping;
         private AccessObjectMapper _accessObjectMapper = new AccessObjectMapper();
-        private TransferObjectMapper _accessObjectMapping = new TransferObjectMapper();
+        private TransferObjectMapper _transferObjectMapper = new TransferObjectMapper();
         private IBlogArticleRepository _dbConnnection;
         private ILogger _logger;
         public BlogService(ILogger<IBlogService> logger, IBlogArticleRepository dbConnection)
@@ -57,14 +57,13 @@ namespace Services
 
         public BlogArticlePackageTransferObj GetBlogArticles()
         {
-            var blogArticles = _dbConnnection.GetAllBlogArticles();
-            var sections = _dbConnnection.GetAllSections();
-            var paragraphItems = _dbConnnection.GetAllParagraphs();
+            var blogArticles = _transferObjectMapper.MapToBlogArticleTransferObj(_dbConnnection.GetAllBlogArticles());
+            var sections = _transferObjectMapper.MapFromGetAllSectionAccessObj(_dbConnnection.GetAllSections());
+            var paragraphItems = _transferObjectMapper.MapToParagraphTransferObj(_dbConnnection.GetAllParagraphs());
 
             var temp = new BlogArticlePackageTransferObj();
-            var 
+            temp = _transferObjectMapper.MapToPackageTransferObj(sections, paragraphItems, null, blogArticles);
 
-            
             return temp;
         }
 

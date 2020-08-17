@@ -108,8 +108,8 @@ namespace Repositories.BlogArticle
             var parameter = new DynamicParameters();
             string connectionString = "UserID=postgres;Password=unearth_Anubis5;Host=localhost;Port=5432;Database=BloggyData;";
 
-            string blogArticleQuery = "DELETE FROM blogarticle WHERE BlogArticleId = @BlogArticleId";
-            string sectionQuery = "DELETE FROM dbo.section WHERE BlogArticleId = @BlogArticleId";
+            string blogArticleQuery = "DELETE FROM blogarticle WHERE BlogId = @BlogId";
+            string sectionQuery = "DELETE FROM dbo.section WHERE BlogId = @BlogId";
             string paragraphQuery = "DELETE FROM dbo.paragraph WHERE SectionId = @SectionId";
 
             using (var connection = new NpgsqlConnection(connectionString))
@@ -198,7 +198,7 @@ namespace Repositories.BlogArticle
             {
                 try
                 {
-                    string sqlQuery = $"UPDATE blogarticle SET title = @Title WHERE blogarticleid = @BlogArticleId";
+                    string sqlQuery = $"UPDATE blogarticle SET title = @Title WHERE blogarticleid = @BlogId";
 
                     var affectedRows = connection.Execute(sqlQuery, new
                     {

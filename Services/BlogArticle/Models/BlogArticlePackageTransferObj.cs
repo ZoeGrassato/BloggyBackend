@@ -9,6 +9,6 @@ namespace Services.BlogArticle.Models
         //public List<SectionTransferObj> Sections { get; set; }
         //public List<ParagraphTransferObj> Paragraphs { get; set; }
         //public List<ImageTransferObj> Images { get; set; }
-        public List<BlogArticleTransferObj> BlogArticles { get; set; }
+        public List<BlogArticleTransferObj> BlogArticles = new List<BlogArticleTransferObj>();
     }
 }
