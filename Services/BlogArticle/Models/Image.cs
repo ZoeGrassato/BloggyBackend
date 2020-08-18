@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Services.BlogArticle.Models
 {
-    public class ImageTransferObj
+    public class Image
     {
         public byte[] BytesImages { get; set; }
         public Guid ImageId { get; set; }

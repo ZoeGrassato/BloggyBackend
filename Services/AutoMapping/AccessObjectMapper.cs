@@ -15,14 +15,15 @@ namespace Services.Mapping
     {
         public BlogArticleAccessObj MapToBlogArticleAccessObj(BlogArticleTransferObj blogArticleTransferObj)
         {
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<BlogArticleTransferObj, BlogArticleAccessObj>();
-            });
+            var final = new BlogArticleAccessObj() { BlogId = blogArticleTransferObj.BlogArticleId, Title = blogArticleTransferObj.Title };
+            //var config = new MapperConfiguration(cfg =>
+            //{
+            //    cfg.CreateMap<BlogArticleTransferObj, BlogArticleAccessObj>();
+            //});
 
-            IMapper mapper = config.CreateMapper();
-            var source = blogArticleTransferObj;
-            var final = mapper.Map<BlogArticleTransferObj, BlogArticleAccessObj>(source);
+            //IMapper mapper = config.CreateMapper();
+            //var source = blogArticleTransferObj;
+            //var final = mapper.Map<BlogArticleTransferObj, BlogArticleAccessObj>(source);
             return final;
         }
 
@@ -55,19 +56,19 @@ namespace Services.Mapping
             return final;
         }
 
-        public List<ImageAccessObj> MapToImageAccessObj(List<ImageTransferObj> imageItems)
+        public List<ImageAccessObj> MapToImageAccessObj(List<Image> imageItems)
         {
             var final = new List<ImageAccessObj>();
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<ImageTransferObj, ImageAccessObj>();
+                cfg.CreateMap<Image, ImageAccessObj>();
             });
             
             foreach(var item in imageItems)
             {
                 IMapper mapper = config.CreateMapper();
                 var source = item;
-                final.Add(mapper.Map<ImageTransferObj,ImageAccessObj>(source));
+                final.Add(mapper.Map<Image,ImageAccessObj>(source));
             }
             return final;
         }

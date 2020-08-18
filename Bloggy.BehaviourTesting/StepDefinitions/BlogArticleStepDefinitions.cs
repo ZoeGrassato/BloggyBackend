@@ -2,6 +2,7 @@
 using Bloggy.BehaviourTesting.Utils;
 using Flurl;
 using Flurl.Http;
+using Microsoft.VisualBasic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Services.BlogArticle.Models;
@@ -39,6 +40,7 @@ namespace Bloggy.BehaviourTesting.StepDefinitions
 
             Assert.IsNotNull(responseArticle);
             Assert.AreEqual(title, responseArticle.Title);
+
         }
 
         [Then("My blog article has (\\d*) sections with (\\d*) images and (\\d*) paragraphs each")]
@@ -106,17 +108,19 @@ namespace Bloggy.BehaviourTesting.StepDefinitions
 
 
         //UPDATE blog article
-        [Given("I have a blog article with the id (.*) and sectionId (.*) and paragraphId (.*)")]
-        public void GivenIHaveABlogArticle(string blogArticleId, string sectionId, string paragraphId)
+        [Given("I have a blog article with the id (.*) and sectionId (.*)")]
+        public void GivenIHaveABlogArticle(string blogArticleId, string sectionId)
         {
-            response = "http://localhost:5000".AppendPathSegments("api", "v1", "blog-articles").GetJsonAsync().Result;
+            response = "http://localhost:5000".AppendPathSegments("api", "v1", "blog-articles").GetJsonAsync<HttpResponseMessage>().Result;
 
             Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
             allItems = JsonConvert.DeserializeObject<BlogArticlePackageTransferObj>(response.Content.ReadAsStringAsync().Result);
 
-            Assert.IsNotNull(allItems.BlogArticles.SingleOrDefault(x => x.BlogArticleId == Guid.Parse(blogArticleId)));
-            Assert.IsNotNull(allItems.Sections.SingleOrDefault(x => x.SectionId == Guid.Parse(sectionId)));
-            Assert.IsNotNull(allItems.Paragraphs.SingleOrDefault(x => x.ParagraphId == Guid.Parse(paragraphId)));
+            var currentBlogArticle = allItems.BlogArticles.SingleOrDefault(x => x.BlogArticleId == Guid.Parse(blogArticleId));
+            var currentSections = currentBlogArticle.Sections;
+
+            Assert.IsNotNull(currentBlogArticle);
+            Assert.IsNotNull(currentBlogArticle.Sections);
         }
 
         [When("I update the blog article with id (.*) and sectionId (.*) and paragraphId (.*) and set paragraphTextArea to (.*)")]
@@ -126,14 +130,17 @@ namespace Bloggy.BehaviourTesting.StepDefinitions
             response = "http://localhost:5000".AppendPathSegments("api", "v1", "blog-articles").PutJsonAsync(model).Result;
         }
 
-        [Then("The blog article with paragraphId (.*) should reflect the updated info with paragraphTextArea set to (.*)")]
-        public void ThenTheBlogArticleShouldReflectTheUpdate(string paragraphId, string paragraphTextArea)
+        [Then("The blog article with id (.*) and sectionId(.*) and paragraphId (.*) should reflect the updated info with paragraphTextArea set to (.*)")]
+        public void ThenTheBlogArticleShouldReflectTheUpdate(string id, string sectionId, string paragraphId, string paragraphTextArea)
         {
             response = "http://localhost:5000".AppendPathSegments("api", "v1", "blog-articles").GetJsonAsync().Result;
             allItems = JsonConvert.DeserializeObject<BlogArticlePackageTransferObj>(response.Content.ReadAsStringAsync().Result);
 
+            var currentBlogArticle = allItems.BlogArticles.SingleOrDefault(x => x.BlogArticleId == Guid.Parse(id));
+            var currentSection = currentBlogArticle.Sections.SingleOrDefault(x => x.Paragraphs.Any(x  => x.ParagraphId == Guid.Parse(paragraphId)));
+
             Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
-            Assert.AreEqual(allItems.Paragraphs.SingleOrDefault(x => x.ParagraphId == Guid.Parse(paragraphId)).ParagraphTextArea, paragraphTextArea);
+            Assert.AreEqual(paragraphTextArea, currentSection.Paragraphs.SingleOrDefault(x => x.ParagraphId == Guid.Parse(paragraphId)).ParagraphTextArea);
         }
     }
 }

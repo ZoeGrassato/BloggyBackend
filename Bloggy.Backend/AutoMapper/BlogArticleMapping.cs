@@ -57,12 +57,12 @@ namespace Bloggy.Backend.AutoMapper
             return finalList;
         }
 
-        public List<ImageTransferObj> MapImages(List<ImageViewModel> imageModels)
+        public List<Image> MapImages(List<ImageViewModel> imageModels)
         {
-            var finalList = new List<ImageTransferObj>();
+            var finalList = new List<Image>();
             foreach (var item in imageModels)
             {
-                var current = new ImageTransferObj()
+                var current = new Image()
                 {
                    ImageId = item.ImageId,
                    BytesImages = item.BytesImages,

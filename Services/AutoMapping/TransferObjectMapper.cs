@@ -15,7 +15,7 @@ namespace Services.AutoMapping
     {
         public BlogArticlePackageTransferObj MapToPackageTransferObj(List<SectionTransferObj> sections, 
                                                                     List<ParagraphTransferObj> paragraphs, 
-                                                                    List<ImageTransferObj> images, 
+                                                                    List<Image> images, 
                                                                     List<BlogArticleTransferObj> blogArticles )
         {
             var final = new BlogArticlePackageTransferObj();
@@ -27,7 +27,7 @@ namespace Services.AutoMapping
             return final;
         }
 
-        public List<SectionTransferObj> MapParagraphsAndImagesForSection(List<SectionTransferObj> sections, List<ParagraphTransferObj> paragraphs, List<ImageTransferObj> images)
+        public List<SectionTransferObj> MapParagraphsAndImagesForSection(List<SectionTransferObj> sections, List<ParagraphTransferObj> paragraphs, List<Image> images)
         {
             foreach(var section in sections)
             {
@@ -53,16 +53,16 @@ namespace Services.AutoMapping
             return final;
         }
 
-        public List<ImageTransferObj> MapToImageTransferObj(List<ImageAccessObj> images)
+        public List<Image> MapToImageTransferObj(List<ImageAccessObj> images)
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<List<ImageAccessObj>, List<ImageTransferObj>>();
+                cfg.CreateMap<List<ImageAccessObj>, List<Image>>();
             });
 
             IMapper mapper = config.CreateMapper();
             var source = images;
-            var final = mapper.Map<List<ImageAccessObj>, List<ImageTransferObj>>(source);
+            var final = mapper.Map<List<ImageAccessObj>, List<Image>>(source);
             return final;
         }
 

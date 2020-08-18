@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using Bloggy.Backend.AutoMapper;
 using Bloggy.Backend.Exceptions;
@@ -31,17 +32,21 @@ namespace Bloggy.Backend.Controllers.v1
         }
 
         [HttpGet]
-        public IActionResult ReadAll()
+        public HttpResponseMessage ReadAll()
         {
             var items = _blogService.GetBlogArticles();
-            return Ok(items);
+            var response = new HttpResponseMessage(HttpStatusCode.OK);
+            response.Content = new StringContent(JsonConvert.SerializeObject(items), Encoding.UTF8, "application/json");
+            return response;
         }
 
         [HttpGet("{id}")]
-        public IActionResult Read(string id)
+        public HttpResponseMessage Read(string id)
         {
             var items = _blogService.GetBlogArticles();
-            return Ok(items);
+            var response = new HttpResponseMessage(HttpStatusCode.OK);
+            response.Content = new StringContent(JsonConvert.SerializeObject(items), Encoding.UTF8, "application/json");
+            return response;
         }
 
         [HttpPost]

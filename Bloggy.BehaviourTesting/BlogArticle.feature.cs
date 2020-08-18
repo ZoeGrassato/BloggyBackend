@@ -141,8 +141,7 @@ this.ScenarioInitialize(scenarioInfo);
                 this.ScenarioStart();
 #line 13
  testRunner.Given("I have a blog article with the id 0537b53f-67ab-4520-819d-394663934ddf and sectio" +
-                        "nId 5f89a27c-676c-4575-a03f-de6f091a5fa5 and paragraphId 8622825b-b0e1-4d96-8ee5" +
-                        "-6d449fab2873", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+                        "nId 5f89a27c-676c-4575-a03f-de6f091a5fa5", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 14
  testRunner.When("I update the blog article with id 0537b53f-67ab-4520-819d-394663934ddf and sectio" +
@@ -150,8 +149,9 @@ this.ScenarioInitialize(scenarioInfo);
                         "-6d449fab2873 and set paragraphTextArea to AGAINUPDATED", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 15
- testRunner.Then("The blog article with paragraphId 8622825b-b0e1-4d96-8ee5-6d449fab2873 should ref" +
-                        "lect the updated info with paragraphTextArea set to AGAINUPDATED", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("The blog article with id 0537b53f-67ab-4520-819d-394663934ddf and sectionId 5f89a" +
+                        "27c-676c-4575-a03f-de6f091a5fa5 and paragraphId 8622825b-b0e1-4d96-8ee5-6d449fab" +
+                        "2873 should reflect the updated info with paragraphTextArea set to AGAINUPDATED", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
