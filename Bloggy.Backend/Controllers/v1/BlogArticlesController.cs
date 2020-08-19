@@ -50,7 +50,7 @@ namespace Bloggy.Backend.Controllers.v1
         }
 
         [HttpPost]
-        public IActionResult Create(BlogArticleViewModel blogArticleViewModel)
+        public IActionResult Create(BlogArticleTransferObj blogArticleViewModel)
         {
             if (blogArticleViewModel.Validate())
             {
@@ -62,7 +62,7 @@ namespace Bloggy.Backend.Controllers.v1
         }
 
         [HttpPut]
-        public IActionResult Update(UpdateBlogArticleViewModel blogArticleViewModel)
+        public IActionResult Update(UpdateBlogArticleTransferObj blogArticleViewModel)
         {
             if (blogArticleViewModel.Validate())
             {

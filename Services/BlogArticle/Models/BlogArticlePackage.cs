@@ -4,11 +4,11 @@ using System.Text;
 
 namespace Services.BlogArticle.Models
 {
-    public class BlogArticlePackageTransferObj
+    public class BlogArticlePackage
     {
         //public List<SectionTransferObj> Sections { get; set; }
         //public List<ParagraphTransferObj> Paragraphs { get; set; }
         //public List<ImageTransferObj> Images { get; set; }
-        public List<BlogArticleTransferObj> BlogArticles = new List<BlogArticleTransferObj>();
+        public List<BlogArticleObj> BlogArticles = new List<BlogArticleObj>();
     }
 }

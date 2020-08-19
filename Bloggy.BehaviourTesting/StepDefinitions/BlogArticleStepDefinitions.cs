@@ -19,9 +19,9 @@ namespace Bloggy.BehaviourTesting.StepDefinitions
     public class BlogArticleStepDefinitions
     {
         private HttpResponseMessage response;
-        private BlogArticleTransferObj responseArticle;
-        private BlogArticleViewModel submissionArticle;
-        private BlogArticlePackageTransferObj allItems;
+        private BlogArticleObj responseArticle;
+        private BlogArticleTransferObj submissionArticle;
+        private BlogArticlePackage allItems;
 
         //CREATE blog article
         [When("I submit a blog article with the title (.*) and (\\d*) sections with (\\d*) images and (\\d*) paragraphs each")]
@@ -36,7 +36,7 @@ namespace Bloggy.BehaviourTesting.StepDefinitions
         {
             Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
 
-            responseArticle = JsonConvert.DeserializeObject<BlogArticleTransferObj>(response.Content.ReadAsStringAsync().Result);
+            responseArticle = JsonConvert.DeserializeObject<BlogArticleObj>(response.Content.ReadAsStringAsync().Result);
 
             Assert.IsNotNull(responseArticle);
             Assert.AreEqual(title, responseArticle.Title);
@@ -114,7 +114,7 @@ namespace Bloggy.BehaviourTesting.StepDefinitions
             response = "http://localhost:5000".AppendPathSegments("api", "v1", "blog-articles").GetJsonAsync<HttpResponseMessage>().Result;
 
             Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
-            allItems = JsonConvert.DeserializeObject<BlogArticlePackageTransferObj>(response.Content.ReadAsStringAsync().Result);
+            allItems = JsonConvert.DeserializeObject<BlogArticlePackage>(response.Content.ReadAsStringAsync().Result);
 
             var currentBlogArticle = allItems.BlogArticles.SingleOrDefault(x => x.BlogArticleId == Guid.Parse(blogArticleId));
             var currentSections = currentBlogArticle.Sections;
@@ -134,7 +134,7 @@ namespace Bloggy.BehaviourTesting.StepDefinitions
         public void ThenTheBlogArticleShouldReflectTheUpdate(string id, string sectionId, string paragraphId, string paragraphTextArea)
         {
             response = "http://localhost:5000".AppendPathSegments("api", "v1", "blog-articles").GetJsonAsync().Result;
-            allItems = JsonConvert.DeserializeObject<BlogArticlePackageTransferObj>(response.Content.ReadAsStringAsync().Result);
+            allItems = JsonConvert.DeserializeObject<BlogArticlePackage>(response.Content.ReadAsStringAsync().Result);
 
             var currentBlogArticle = allItems.BlogArticles.SingleOrDefault(x => x.BlogArticleId == Guid.Parse(id));
             var currentSection = currentBlogArticle.Sections.SingleOrDefault(x => x.Paragraphs.Any(x  => x.ParagraphId == Guid.Parse(paragraphId)));

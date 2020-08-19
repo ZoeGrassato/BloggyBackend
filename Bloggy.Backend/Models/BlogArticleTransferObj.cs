@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace Bloggy.Backend.Models
 {
-    public class BlogArticleViewModel
+    public class BlogArticleTransferObj
     {
         public Guid ArticleId { get; set; }
-        public List<SectionViewModel> Sections { get; set; }
+        public List<SectionTransferObj> Sections { get; set; }
         public string Title { get; set; }
 
         public bool Validate()

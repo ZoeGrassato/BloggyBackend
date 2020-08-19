@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Bloggy.Backend.Models
 {
-    public class HeaderViewModel
+    public class HeaderTransferObj
     {
         public string HeaderText { get; set; }
         public bool IsUnderlined { get; set; }

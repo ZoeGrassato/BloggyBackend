@@ -13,12 +13,12 @@ namespace Services.AutoMapping
     //mapping direction--> from accessObjects to transferObjects
     public class TransferObjectMapper
     {
-        public BlogArticlePackageTransferObj MapToPackageTransferObj(List<SectionTransferObj> sections, 
-                                                                    List<ParagraphTransferObj> paragraphs, 
+        public BlogArticlePackage MapToPackageTransferObj(List<Section> sections, 
+                                                                    List<Paragraph> paragraphs, 
                                                                     List<Image> images, 
-                                                                    List<BlogArticleTransferObj> blogArticles )
+                                                                    List<BlogArticleObj> blogArticles )
         {
-            var final = new BlogArticlePackageTransferObj();
+            var final = new BlogArticlePackage();
             foreach(var blogArticle in blogArticles)
             {
                 blogArticle.Sections = MapParagraphsAndImagesForSection(sections.Where(x => x.BlogId == blogArticle.BlogArticleId).ToList(), paragraphs, images);
@@ -27,7 +27,7 @@ namespace Services.AutoMapping
             return final;
         }
 
-        public List<SectionTransferObj> MapParagraphsAndImagesForSection(List<SectionTransferObj> sections, List<ParagraphTransferObj> paragraphs, List<Image> images)
+        public List<Section> MapParagraphsAndImagesForSection(List<Section> sections, List<Paragraph> paragraphs, List<Image> images)
         {
             foreach(var section in sections)
             {
@@ -37,13 +37,13 @@ namespace Services.AutoMapping
             return sections;
         }
 
-        public List<ParagraphTransferObj> MapToParagraphTransferObj(List<ParagraphAccessObj> paragraphs)
+        public List<Paragraph> MapToParagraphTransferObj(List<ParagraphAccessObj> paragraphs)
         {
-            var final = new List<ParagraphTransferObj>();
+            var final = new List<Paragraph>();
 
             foreach (var paragraph in paragraphs)
             {
-                final.Add(new ParagraphTransferObj()
+                final.Add(new Paragraph()
                 { 
                     ParagraphId = paragraph.ParagraphId, 
                     ParagraphTextArea = paragraph.ParagraphTextArea, 
@@ -66,41 +66,41 @@ namespace Services.AutoMapping
             return final;
         }
 
-        public List<SectionTransferObj> MapToSectionTransferObj(List<SectionAccessObj> sections)
+        public List<Section> MapToSectionTransferObj(List<SectionAccessObj> sections)
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<List<SectionAccessObj>, List<SectionTransferObj>>();
+                cfg.CreateMap<List<SectionAccessObj>, List<Section>>();
             });
 
             IMapper mapper = config.CreateMapper();
             var source = sections;
-            var final = mapper.Map<List<SectionAccessObj>, List<SectionTransferObj>>(source);
+            var final = mapper.Map<List<SectionAccessObj>, List<Section>>(source);
             return final;
         }
 
-        public List<BlogArticleTransferObj> MapToBlogArticleTransferObj(List<BlogArticleAccessObj> blogArticles)
+        public List<BlogArticleObj> MapToBlogArticleTransferObj(List<BlogArticleAccessObj> blogArticles)
         {
-            var final = new List<BlogArticleTransferObj>();
+            var final = new List<BlogArticleObj>();
             foreach(var item in blogArticles)
             {
-                final.Add(new BlogArticleTransferObj() { BlogArticleId = item.BlogId, Sections = null, Title = item.Title });
+                final.Add(new BlogArticleObj() { BlogArticleId = item.BlogId, Sections = null, Title = item.Title });
             }
 
             return final;
         }
 
-        public List<SectionTransferObj> MapFromGetAllSectionAccessObj(List<GetAllSectionsAccessObject> sections)
+        public List<Section> MapFromGetAllSectionAccessObj(List<GetAllSectionsAccessObject> sections)
         {
-            var final = new List<SectionTransferObj>();
+            var final = new List<Section>();
             foreach (var item in sections)
             {
-                final.Add(new SectionTransferObj()
+                final.Add(new Section()
                 {
                     SectionId = item.SectionId,
                     BlogId = item.BlogId,
-                    Header = SerializationManager.Deserialize<HeaderTransferObj>(item.Header),
-                    SubHeader = SerializationManager.Deserialize<SubHeaderTransferObj>(item.Subheader),
+                    Header = SerializationManager.Deserialize<Header>(item.Header),
+                    SubHeader = SerializationManager.Deserialize<SubHeader>(item.Subheader),
                     Images = null,
                     Paragraphs = null
                 });

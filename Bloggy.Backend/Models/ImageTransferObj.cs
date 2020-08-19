@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Bloggy.Backend.Models
 {
-    public class ImageViewModel
+    public class ImageTransferObj
     {
         public byte[] BytesImages { get; set; }
         public Guid ImageId { get; set; }

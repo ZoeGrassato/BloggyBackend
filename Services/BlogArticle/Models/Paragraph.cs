@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace Bloggy.Backend.Models
+namespace Services.BlogArticle.Models
 {
-    public class ParagraphViewModel
+    public class Paragraph
     {
         public string ParagraphTextArea { get; set; }
         public Guid ParagraphId { get; set; }

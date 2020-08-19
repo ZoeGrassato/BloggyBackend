@@ -13,7 +13,7 @@ namespace Services.Mapping
     //mapping direction--> from transferObjects to accessObjects
     public class AccessObjectMapper
     {
-        public BlogArticleAccessObj MapToBlogArticleAccessObj(BlogArticleTransferObj blogArticleTransferObj)
+        public BlogArticleAccessObj MapToBlogArticleAccessObj(BlogArticleObj blogArticleTransferObj)
         {
             var final = new BlogArticleAccessObj() { BlogId = blogArticleTransferObj.BlogArticleId, Title = blogArticleTransferObj.Title };
             //var config = new MapperConfiguration(cfg =>
@@ -27,7 +27,7 @@ namespace Services.Mapping
             return final;
         }
 
-        public UpdateBlogArticleAccessObj MapToUpdateBlogArticleAccessObj(UpdateBlogArticleTransferObj blogArticleTransferObj)
+        public UpdateBlogArticleAccessObj MapToUpdateBlogArticleAccessObj(UpdateBlogArticle blogArticleTransferObj)
         {
             var final = new UpdateBlogArticleAccessObj()
             {
@@ -43,16 +43,16 @@ namespace Services.Mapping
             return final;
         }
 
-        public List<ParagraphAccessObj> MapToParagraphAccessObj(List<ParagraphTransferObj> paragraphTransferObj)
+        public List<ParagraphAccessObj> MapToParagraphAccessObj(List<Paragraph> paragraphTransferObj)
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<ParagraphTransferObj, ParagraphAccessObj>();
+                cfg.CreateMap<Paragraph, ParagraphAccessObj>();
             });
 
             IMapper mapper = config.CreateMapper();
             var source = paragraphTransferObj;
-            var final = mapper.Map<List<ParagraphTransferObj>, List<ParagraphAccessObj>>(source);
+            var final = mapper.Map<List<Paragraph>, List<ParagraphAccessObj>>(source);
             return final;
         }
 
@@ -73,7 +73,7 @@ namespace Services.Mapping
             return final;
         }
 
-        public List<SectionAccessObj> MapToSectionAccessObj(List<SectionTransferObj> sections)
+        public List<SectionAccessObj> MapToSectionAccessObj(List<Section> sections)
         {
             var final = new List<SectionAccessObj>();
            
@@ -94,45 +94,45 @@ namespace Services.Mapping
             return final;
         }
 
-        public HeaderAccessObj MapToHeader(HeaderTransferObj header)
+        public HeaderAccessObj MapToHeader(Header header)
         {
             var final = new HeaderAccessObj();
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<HeaderTransferObj, HeaderAccessObj>();
+                cfg.CreateMap<Header, HeaderAccessObj>();
             });
             IMapper mapper = config.CreateMapper();
             var source = header;
-            final = mapper.Map<HeaderTransferObj, HeaderAccessObj>(source);
+            final = mapper.Map<Header, HeaderAccessObj>(source);
             return final;
         }
 
-        public SubHeaderAccessObj MapToSubheader(SubHeaderTransferObj subHeader)
+        public SubHeaderAccessObj MapToSubheader(SubHeader subHeader)
         {
             var final = new SubHeaderAccessObj();
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<SubHeaderTransferObj, SubHeaderAccessObj>();
+                cfg.CreateMap<SubHeader, SubHeaderAccessObj>();
             });
             IMapper mapper = config.CreateMapper();
             var source = subHeader;
-            final = mapper.Map<SubHeaderTransferObj, SubHeaderAccessObj>(source);
+            final = mapper.Map<SubHeader, SubHeaderAccessObj>(source);
             return final;
         }
 
-        public List<SectionJsonAccessObj> MapToJsonSectionAccessObj(List<SectionJsonTransferObj> sections)
+        public List<SectionJsonAccessObj> MapToJsonSectionAccessObj(List<SectionJson> sections)
         {
             var final = new List<SectionJsonAccessObj>();
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<SectionJsonTransferObj, SectionJsonAccessObj>();
+                cfg.CreateMap<SectionJson, SectionJsonAccessObj>();
             });
 
             foreach (var item in sections)
             {
                 IMapper mapper = config.CreateMapper();
                 var source = item;
-                final.Add(mapper.Map<SectionJsonTransferObj, SectionJsonAccessObj>(source));
+                final.Add(mapper.Map<SectionJson, SectionJsonAccessObj>(source));
             }
             return final;
         }

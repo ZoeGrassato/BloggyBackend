@@ -4,13 +4,13 @@ using System.Text;
 
 namespace Services.BlogArticle.Models
 {
-    public class SectionTransferObj
+    public class Section
     {
         public Guid BlogId { get; set; }
         public Guid SectionId { get; set; }
-        public HeaderTransferObj Header { get; set; }
-        public SubHeaderTransferObj SubHeader { get; set; }
-        public List<ParagraphTransferObj> Paragraphs { get; set; }
+        public Header Header { get; set; }
+        public SubHeader SubHeader { get; set; }
+        public List<Paragraph> Paragraphs { get; set; }
         public List<Image> Images { get; set; }
     }
 }

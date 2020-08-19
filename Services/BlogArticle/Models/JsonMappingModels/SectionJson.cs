@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Services.BlogArticle.Models.JsonMappingModels
 {
-    public class SectionJsonTransferObj
+    public class SectionJson
     {
         public Guid SectionId { get; set; }
         public string Header { get; set; }

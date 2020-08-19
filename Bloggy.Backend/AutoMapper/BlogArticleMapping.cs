@@ -10,9 +10,9 @@ namespace Bloggy.Backend.AutoMapper
 {
     public class BlogArticleMapping
     {
-        public BlogArticleTransferObj MapToBlogArticle(BlogArticleViewModel blogArticleViewModel)
+        public BlogArticleObj MapToBlogArticle(BlogArticleTransferObj blogArticleViewModel)
         {
-            var finalItem = new BlogArticleTransferObj()
+            var finalItem = new BlogArticleObj()
             {
                 Title = blogArticleViewModel.Title,
                 BlogArticleId = blogArticleViewModel.ArticleId,
@@ -22,9 +22,9 @@ namespace Bloggy.Backend.AutoMapper
             return finalItem;
         }
 
-        public UpdateBlogArticleTransferObj MapToUpdateBlogArticle(UpdateBlogArticleViewModel blogArticleViewModel)
+        public UpdateBlogArticle MapToUpdateBlogArticle(UpdateBlogArticleTransferObj blogArticleViewModel)
         {
-            var finalItem = new UpdateBlogArticleTransferObj()
+            var finalItem = new UpdateBlogArticle()
             {
                 Title = blogArticleViewModel.Title,
                 BlogArticleId = blogArticleViewModel.ArticleId,
@@ -38,12 +38,12 @@ namespace Bloggy.Backend.AutoMapper
             return finalItem;
         }
 
-        public List<SectionTransferObj> MapSections(List<SectionViewModel> sectionViewModels)
+        public List<Section> MapSections(List<SectionTransferObj> sectionViewModels)
         {
-            var finalList = new List<SectionTransferObj>();
+            var finalList = new List<Section>();
             foreach(var item in sectionViewModels)
             {
-                var current = new SectionTransferObj()
+                var current = new Section()
                 {
                     Header = MapHeader(item.Header),
                     SubHeader = MapSubheader(item.SubHeader),
@@ -57,7 +57,7 @@ namespace Bloggy.Backend.AutoMapper
             return finalList;
         }
 
-        public List<Image> MapImages(List<ImageViewModel> imageModels)
+        public List<Image> MapImages(List<ImageTransferObj> imageModels)
         {
             var finalList = new List<Image>();
             foreach (var item in imageModels)
@@ -73,12 +73,12 @@ namespace Bloggy.Backend.AutoMapper
             return finalList;
         }
 
-        public List<ParagraphTransferObj> MapParagraphs(List<ParagraphViewModel> paragraphViewModels)
+        public List<Paragraph> MapParagraphs(List<ParagraphTransferObj> paragraphViewModels)
         {
-            var finalList = new List<ParagraphTransferObj>();
+            var finalList = new List<Paragraph>();
             foreach(var item in paragraphViewModels)
             {
-                var current = new ParagraphTransferObj()
+                var current = new Paragraph()
                 {
                     ParagraphId = item.ParagraphId,
                     ParagraphTextArea = item.ParagraphTextArea,
@@ -89,29 +89,29 @@ namespace Bloggy.Backend.AutoMapper
             return finalList;
         }
 
-        public HeaderTransferObj MapHeader(HeaderViewModel headerViewModel)
+        public Header MapHeader(HeaderTransferObj headerViewModel)
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<HeaderViewModel, HeaderTransferObj>();
+                cfg.CreateMap<HeaderTransferObj, Header>();
             });
 
             IMapper mapper = config.CreateMapper();
             var source = headerViewModel;
-            var final = mapper.Map<HeaderViewModel, HeaderTransferObj>(source);
+            var final = mapper.Map<HeaderTransferObj, Header>(source);
             return final;
         }
 
-        public SubHeaderTransferObj MapSubheader(SubHeaderViewModel subHeaderViewModel)
+        public SubHeader MapSubheader(SubHeaderTransferObj subHeaderViewModel)
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<SubHeaderViewModel, SubHeaderTransferObj>();
+                cfg.CreateMap<SubHeaderTransferObj, SubHeader>();
             });
 
             IMapper mapper = config.CreateMapper();
             var source = subHeaderViewModel;
-            var final = mapper.Map<SubHeaderViewModel, SubHeaderTransferObj>(source);
+            var final = mapper.Map<SubHeaderTransferObj, SubHeader>(source);
             return final;
         }
     }

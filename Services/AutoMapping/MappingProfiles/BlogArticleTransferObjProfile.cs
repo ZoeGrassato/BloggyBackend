@@ -18,7 +18,7 @@ namespace Services.AutoMapping.MappingProfiles
 
         private void Main()
         {
-            CreateMap<BlogArticleAccessObj, BlogArticleTransferObj>()
+            CreateMap<BlogArticleAccessObj, BlogArticleObj>()
             .ForMember(dest => dest.BlogArticleId, opt => opt.MapFrom(s => s.BlogId))
             .ReverseMap()
              .ForMember(dest => dest.BlogId, opt => opt.MapFrom(s => s.BlogArticleId));
@@ -26,12 +26,12 @@ namespace Services.AutoMapping.MappingProfiles
 
         private void Section()
         {
-            CreateMap<SectionAccessObj, SectionTransferObj>();
+            CreateMap<SectionAccessObj, Section>();
         }
 
         private void Header()
         {
-            CreateMap<HeaderAccessObj, HeaderTransferObj>();
+            CreateMap<HeaderAccessObj, Header>();
         }
     }
 }

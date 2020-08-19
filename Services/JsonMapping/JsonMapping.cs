@@ -9,9 +9,9 @@ namespace Services.Mapping
 {
     public class JsonMapping
     {
-        public SectionJsonTransferObj MapToSectionJson(SectionTransferObj section)
+        public SectionJson MapToSectionJson(Section section)
         {
-            var final = new SectionJsonTransferObj
+            var final = new SectionJson
             {
                 SectionId = section.SectionId,
                 Header = JsonConvert.SerializeObject(section.Header),

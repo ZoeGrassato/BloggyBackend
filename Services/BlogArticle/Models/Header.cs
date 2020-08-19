@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Services.BlogArticle.Models
 {
-    public class HeaderTransferObj : SharedTextInfoTransferObj
+    public class Header : SharedTextInfoTransferObj
     {
         public string HeaderText { get; set; }
         public bool IsUnderlined { get; set; }

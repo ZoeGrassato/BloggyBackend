@@ -24,10 +24,10 @@ namespace Services
             _jsonMapping = new JsonMapping();
             _dbConnnection = dbConnection;
         }
-        public void Add(BlogArticleTransferObj blogArticle)
+        public void Add(BlogArticleObj blogArticle)
         {
             var mappedBlogArticle = _accessObjectMapper.MapToBlogArticleAccessObj(blogArticle);
-            var mappedSections = new List<SectionJsonTransferObj>();
+            var mappedSections = new List<SectionJson>();
             
             var blogUniqueIdentifier = Guid.NewGuid();
             var sectionUniqueIdentifier = Guid.NewGuid();
@@ -55,19 +55,19 @@ namespace Services
             _dbConnnection.DeleteBlogArticle(blogArticleId, Guid.NewGuid());
         }
 
-        public BlogArticlePackageTransferObj GetBlogArticles()
+        public BlogArticlePackage GetBlogArticles()
         {
             var blogArticles = _transferObjectMapper.MapToBlogArticleTransferObj(_dbConnnection.GetAllBlogArticles());
             var sections = _transferObjectMapper.MapFromGetAllSectionAccessObj(_dbConnnection.GetAllSections());
             var paragraphItems = _transferObjectMapper.MapToParagraphTransferObj(_dbConnnection.GetAllParagraphs());
 
-            var temp = new BlogArticlePackageTransferObj();
+            var temp = new BlogArticlePackage();
             temp = _transferObjectMapper.MapToPackageTransferObj(sections, paragraphItems, null, blogArticles);
 
             return temp;
         }
 
-        public void Update(UpdateBlogArticleTransferObj blogArticle)
+        public void Update(UpdateBlogArticle blogArticle)
         {
             var mappedItem = _accessObjectMapper.MapToUpdateBlogArticleAccessObj(blogArticle);
             _dbConnnection.UpdateItem(mappedItem);
