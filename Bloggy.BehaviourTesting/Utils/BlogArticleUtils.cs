@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 namespace Bloggy.BehaviourTesting.Utils
 {
+    // this class is dedicated to building a blog template for the testing engine to use while making http requests in order to conduct behaviour tests (dummy data). 
     public class BlogArticleUtils
     {
         public static BlogArticleTransferObj Generate(string title, int sectionCount, int paragraphCount, int imageCount)

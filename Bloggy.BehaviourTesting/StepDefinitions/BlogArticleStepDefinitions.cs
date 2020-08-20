@@ -18,6 +18,8 @@ namespace Bloggy.BehaviourTesting.StepDefinitions
     [Binding]
     public class BlogArticleStepDefinitions
     {
+        //all http requests are handled by the extension flurl
+
         private HttpResponseMessage response;
         private BlogArticleObj responseArticle;
         private BlogArticleTransferObj submissionArticle;

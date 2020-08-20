@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Bloggy.Backend.AutoMapper
 {
+    //for items that need to be mapped for use of the API or the service layer
+    //mapping direction--> from transferObjects to serviceLayerObjects and
+    //                 --> from serviceLayerObjects to trasferObjects
     public class BlogArticleMapping
     {
         public BlogArticleObj MapToBlogArticle(BlogArticleTransferObj blogArticleViewModel)

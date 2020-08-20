@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Bloggy.Backend.Middleware
 {
+    //Middleware that gets invoked everytime http is used, so we can throw exceptions directly from here
     public class ExceptionHandlerMiddleware
     {
         private readonly RequestDelegate _next;
