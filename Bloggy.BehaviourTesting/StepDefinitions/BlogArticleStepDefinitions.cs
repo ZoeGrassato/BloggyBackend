@@ -113,10 +113,15 @@ namespace Bloggy.BehaviourTesting.StepDefinitions
         [Given("I have a blog article with the id (.*) and sectionId (.*)")]
         public void GivenIHaveABlogArticle(string blogArticleId, string sectionId)
         {
+            using var client = new HttpClient();
+            var result = client.GetAsync("http://localhost:5000/api/v1/blog-articles").Result;
+            var thing = JsonConvert.DeserializeObject<BlogArticlePackage>(result.Content.ReadAsStringAsync().Result);
+
             response = "http://localhost:5000".AppendPathSegments("api", "v1", "blog-articles").GetJsonAsync<HttpResponseMessage>().Result;
 
             Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
-            allItems = JsonConvert.DeserializeObject<BlogArticlePackage>(response.Content.ReadAsStringAsync().Result);
+          
+            allItems = JsonConvert.DeserializeObject<BlogArticlePackage>(result.Content.ReadAsStringAsync().Result);
 
             var currentBlogArticle = allItems.BlogArticles.SingleOrDefault(x => x.BlogArticleId == Guid.Parse(blogArticleId));
             var currentSections = currentBlogArticle.Sections;

@@ -14,9 +14,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
+
 namespace Bloggy.Backend.Controllers.v1
 {
     [Route("api/v1/blog-articles")]
+    [Produces("application/json")]
     [ApiController]
     public class BlogArticlesController : ControllerBase
     {
@@ -36,8 +38,10 @@ namespace Bloggy.Backend.Controllers.v1
         {
             var items = _blogService.GetBlogArticles();
             var response = new HttpResponseMessage(HttpStatusCode.OK);
-            response.Content = new StringContent(JsonConvert.SerializeObject(items), Encoding.UTF8, "application/json");
-            return response;
+            //response.Content = new StringContent(items, Encoding.UTF8);
+            var itemsThings = JsonConvert.SerializeObject(items);
+            var stringContent = new StringContent(JsonConvert.SerializeObject(items));
+            return new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent( JsonConvert.SerializeObject(items)) };
         }
 
         [HttpGet("{id}")]
