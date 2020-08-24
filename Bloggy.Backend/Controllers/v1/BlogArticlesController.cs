@@ -34,14 +34,14 @@ namespace Bloggy.Backend.Controllers.v1
         }
 
         [HttpGet]
-        public HttpResponseMessage ReadAll()
+        public IActionResult ReadAll()
         {
             var items = _blogService.GetBlogArticles();
-            var response = new HttpResponseMessage(HttpStatusCode.OK);
-            //response.Content = new StringContent(items, Encoding.UTF8);
-            var itemsThings = JsonConvert.SerializeObject(items);
-            var stringContent = new StringContent(JsonConvert.SerializeObject(items));
-            return new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent( JsonConvert.SerializeObject(items)) };
+            if(items.BlogArticles == null)
+            {
+                throw new BloggyException("Items cannot be null");
+            }
+            return Ok(items);
         }
 
         [HttpGet("{id}")]

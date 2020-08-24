@@ -3,8 +3,8 @@
 
 Scenario: As a user I create a blog article
 	#Given I am a user with access to bloggy # TODO: add authorization
-	When I submit a blog article with the title Hello and 1 sections with 1 images and 1 paragraphs each
-	Then My blog article should exist within bloggy with the title Hello
+	When I submit a blog article with the title THIS and 1 sections with 1 images and 1 paragraphs each
+	Then My blog article should exist within bloggy with the title THIS
 	And My blog article has 1 sections with 1 images and 1 paragraphs each
 	And My blog article has the correct data
 

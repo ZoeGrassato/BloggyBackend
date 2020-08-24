@@ -97,11 +97,11 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 this.ScenarioStart();
 #line 6
- testRunner.When("I submit a blog article with the title Hello and 1 sections with 1 images and 1 p" +
-                        "aragraphs each", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("I submit a blog article with the title THIS and 1 sections with 1 images and 1 pa" +
+                        "ragraphs each", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 7
- testRunner.Then("My blog article should exist within bloggy with the title Hello", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("My blog article should exist within bloggy with the title THIS", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
 #line 8
  testRunner.And("My blog article has 1 sections with 1 images and 1 paragraphs each", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");

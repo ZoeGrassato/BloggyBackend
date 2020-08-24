@@ -18,7 +18,7 @@ namespace Services.AutoMapping
                                                                     List<Image> images, 
                                                                     List<BlogArticleObj> blogArticles )
         {
-            var final = new BlogArticlePackage();
+            var final = new BlogArticlePackage() { BlogArticles = new List<BlogArticleObj>() };
             foreach(var blogArticle in blogArticles)
             {
                 blogArticle.Sections = MapParagraphsAndImagesForSection(sections.Where(x => x.BlogId == blogArticle.BlogArticleId).ToList(), paragraphs, images);

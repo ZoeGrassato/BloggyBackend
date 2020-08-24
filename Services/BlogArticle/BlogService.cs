@@ -61,7 +61,7 @@ namespace Services
             var sections = _transferObjectMapper.MapFromGetAllSectionAccessObj(_dbConnnection.GetAllSections());
             var paragraphItems = _transferObjectMapper.MapToParagraphTransferObj(_dbConnnection.GetAllParagraphs());
 
-            var temp = new BlogArticlePackage();
+            var temp = new BlogArticlePackage() { BlogArticles = new List<BlogArticleObj>() };
             temp = _transferObjectMapper.MapToPackageTransferObj(sections, paragraphItems, null, blogArticles);
 
             return temp;
