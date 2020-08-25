@@ -8,6 +8,7 @@ using Services.BlogArticle.Models.JsonMappingModels;
 using Services.Mapping;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Services
 {
@@ -26,19 +27,24 @@ namespace Services
         }
         public void Add(BlogArticleObj blogArticle)
         {
+            var createdIds = new IdsForBlogArticlePackage(); // this is so we can return the id's of the items we have just added
             var mappedBlogArticle = _accessObjectMapper.MapToBlogArticleAccessObj(blogArticle);
             var mappedSections = new List<SectionJson>();
             
             var blogUniqueIdentifier = Guid.NewGuid();
-            var sectionUniqueIdentifier = Guid.NewGuid();
 
             //add mapped blog article
             _dbConnnection.AddBlogArticle(mappedBlogArticle, blogUniqueIdentifier);
+            createdIds.BlogArticleId = blogUniqueIdentifier;
 
             foreach (var item in blogArticle.Sections)
             {
-                //add this mapped section to mapped list
-                mappedSections.Add(_jsonMapping.MapToSectionJson(item));
+                var sectionUniqueIdentifier = Guid.NewGuid();
+                createdIds.SectionIds.Add(sectionUniqueIdentifier); //add the list of section IDs to map back to the API
+                createdIds.ParagraphIds.Add(item.SectionId, item.Paragraphs.Select(x => x.ParagraphId).ToList()); //add the dictionairy of paragraph IDs for each section
+
+                //add mapped section
+                _dbConnnection.AddSection(_accessObjectMapper.MapToJsonSectionAccessObj(item), blogUniqueIdentifier);
 
                 //add mapped paragraphs for this section
                 _dbConnnection.AddParagraphs(_accessObjectMapper.MapToParagraphAccessObj(item.Paragraphs), sectionUniqueIdentifier);
@@ -46,9 +52,6 @@ namespace Services
                 //add mapped images for this section
                 _dbConnnection.AddImages(_accessObjectMapper.MapToImageAccessObj(item.Images));
             }
-            //finally add the list of sections for this blog article
-            var mappedSectionsForRepo = _accessObjectMapper.MapToJsonSectionAccessObj(mappedSections);
-            _dbConnnection.AddSections(mappedSectionsForRepo, blogUniqueIdentifier, sectionUniqueIdentifier);
         }
         public void Delete(Guid blogArticleId)
         {

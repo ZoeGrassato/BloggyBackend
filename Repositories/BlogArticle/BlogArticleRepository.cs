@@ -35,36 +35,33 @@ namespace Repositories.BlogArticle
                         BlogId = uniqueIdentifier,
                         Title = blogArticle.Title
                     });
-                } 
-                catch(Exception ex)
+                }
+                catch (Exception ex)
                 {
                     throw new GeneralDatabaseException("A Db related error occured when trying to run your query", ex);
                 }
             }
         }
 
-        public void AddSections(List<SectionJsonAccessObj> sections, Guid currentBlogId, Guid sectionId)
+        public void AddSection(SectionJsonAccessObj section, Guid currentBlogId)
         {
             string connectionString = "UserID=postgres;Password=unearth_Anubis5;Host=localhost;Port=5432;Database=BloggyData;";
             string sqlQuery = "INSERT INTO section(BlogId, SectionId, Header, SubHeader) VALUES(@BlogId, @SectionId, CAST(@Header as json), CAST(@SubHeader as json))";
             using (var connection = new NpgsqlConnection(connectionString))
             {
-                for (int i = 0; i < sections.Count; i++)
+                try
                 {
-                    try
+                    var affectedRows = connection.Execute(sqlQuery, new
                     {
-                        var affectedRows = connection.Execute(sqlQuery, new
-                        {
-                            BlogId = currentBlogId,
-                            SectionId = sectionId,
-                            Header = sections[i].Header,
-                            SubHeader = sections[i].SubHeader
-                        });
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new GeneralDatabaseException("A Db related error occured when trying to run your query", ex);
-                    }
+                        BlogId = currentBlogId,
+                        SectionId = section.SectionId,
+                        Header = section.Header,
+                        SubHeader = section.SubHeader
+                    });
+                }
+                catch (Exception ex)
+                {
+                    throw new GeneralDatabaseException("A Db related error occured when trying to run your query", ex);
                 }
             }
         }
@@ -116,7 +113,7 @@ namespace Repositories.BlogArticle
             {
                 try
                 {
-                    
+
                 }
                 catch (Exception ex)
                 {
@@ -216,10 +213,10 @@ namespace Repositories.BlogArticle
         public void UpdateSections(List<SectionAccessObj> sections, bool updateParagraphs, bool updateImages)
         {
             string connectionString = "UserID=postgres;Password=unearth_Anubis5;Host=localhost;Port=5432;Database=BloggyData;";
-            
+
             using (var connection = new NpgsqlConnection(connectionString))
             {
-                for(int i =0; i < sections.Count; i++)
+                for (int i = 0; i < sections.Count; i++)
                 {
                     var item = SerializationManager.Serialize(sections[i].Header);
                     try

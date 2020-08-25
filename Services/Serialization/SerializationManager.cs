@@ -11,5 +11,10 @@ namespace Services.Serialization
         {
             return JsonConvert.DeserializeObject<T>(json);
         }
+
+        public static string Serialize<T>(T item)
+        {
+            return JsonConvert.SerializeObject(item);
+        }
     }
 }

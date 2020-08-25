@@ -3,6 +3,7 @@ using Repositories.BlogArticle.Models;
 using Repositories.BlogArticle.Models.JsonMappingModels;
 using Services.BlogArticle.Models;
 using Services.BlogArticle.Models.JsonMappingModels;
+using Services.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -39,7 +40,7 @@ namespace Services.Mapping
                 HasSectionChanged = blogArticleTransferObj.HasSectionChanged,
                 HasTitleChanged = blogArticleTransferObj.HasTitleChanged
             };
-            
+
             return final;
         }
 
@@ -63,12 +64,12 @@ namespace Services.Mapping
             {
                 cfg.CreateMap<Image, ImageAccessObj>();
             });
-            
-            foreach(var item in imageItems)
+
+            foreach (var item in imageItems)
             {
                 IMapper mapper = config.CreateMapper();
                 var source = item;
-                final.Add(mapper.Map<Image,ImageAccessObj>(source));
+                final.Add(mapper.Map<Image, ImageAccessObj>(source));
             }
             return final;
         }
@@ -76,8 +77,8 @@ namespace Services.Mapping
         public List<SectionAccessObj> MapToSectionAccessObj(List<Section> sections)
         {
             var final = new List<SectionAccessObj>();
-           
-            for(int i =0; i < sections.Count;i++)
+
+            for (int i = 0; i < sections.Count; i++)
             {
                 var source = sections[i];
                 var current = new SectionAccessObj()
@@ -120,7 +121,7 @@ namespace Services.Mapping
             return final;
         }
 
-        public List<SectionJsonAccessObj> MapToJsonSectionAccessObj(List<SectionJson> sections)
+        public List<SectionJsonAccessObj> MapToJsonSectionsAccessObj(List<SectionJson> sections)
         {
             var final = new List<SectionJsonAccessObj>();
             var config = new MapperConfiguration(cfg =>
@@ -134,6 +135,17 @@ namespace Services.Mapping
                 var source = item;
                 final.Add(mapper.Map<SectionJson, SectionJsonAccessObj>(source));
             }
+            return final;
+        }
+
+        public SectionJsonAccessObj MapToJsonSectionAccessObj(Section section)
+        {
+            var final = new SectionJsonAccessObj();
+
+            final.SectionId = section.SectionId;
+            final.Header = SerializationManager.Serialize(section.Header);
+            final.SubHeader = SerializationManager.Serialize(section.SubHeader);
+
             return final;
         }
     }

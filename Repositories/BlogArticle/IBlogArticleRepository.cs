@@ -17,6 +17,6 @@ namespace Repositories.BlogArticle
         List<GetAllSectionsAccessObject> GetAllSections();
         List<ParagraphAccessObj> GetAllParagraphs();
         void UpdateItem(UpdateBlogArticleAccessObj blogArticle);
-        void AddSections(List<SectionJsonAccessObj> sections, Guid currentBlogId, Guid sectionId);
+        void AddSection(SectionJsonAccessObj section, Guid currentBlogId);
     }
 }

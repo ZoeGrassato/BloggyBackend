@@ -39,7 +39,7 @@ namespace Bloggy.BehaviourTesting.StepDefinitions
             Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
 
             responseArticle = JsonConvert.DeserializeObject<BlogArticleObj>(response.Content.ReadAsStringAsync().Result);
-
+            Assert.IsNotNull(responseArticle.BlogArticleId);
             Assert.IsNotNull(responseArticle);
             Assert.AreEqual(title, responseArticle.Title);
 
