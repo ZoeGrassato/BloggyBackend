@@ -108,5 +108,15 @@ namespace Services.AutoMapping
 
             return final;
         }
+
+        public List<Paragraph> MapSectionIdsForParagraph(List<Paragraph> paragraphs, Guid sectionId)
+        {
+            foreach(var item in paragraphs)
+            {
+                item.SectionId = sectionId;
+            }
+
+            return paragraphs;
+        }
     }
 }

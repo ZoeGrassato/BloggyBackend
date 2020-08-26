@@ -39,10 +39,12 @@ namespace Bloggy.BehaviourTesting.StepDefinitions
             Assert.AreEqual(HttpStatusCode.Created, response.StatusCode);
 
             responseArticle = JsonConvert.DeserializeObject<BlogArticleObj>(response.Content.ReadAsStringAsync().Result);
+
             Assert.IsNotNull(responseArticle.BlogArticleId);
             Assert.IsNotNull(responseArticle);
             Assert.AreEqual(title, responseArticle.Title);
 
+            TestingContext.BlogArticleId = responseArticle.BlogArticleId;
         }
 
         [Then("My blog article has (\\d*) sections with (\\d*) images and (\\d*) paragraphs each")]
@@ -118,7 +120,7 @@ namespace Bloggy.BehaviourTesting.StepDefinitions
             Assert.IsNotNull(allItems);
             Assert.AreNotEqual(allItems.BlogArticles.Count, 0);
           
-            var currentBlogArticle = allItems.BlogArticles.SingleOrDefault(x => x.BlogArticleId == Guid.Parse(blogArticleId));
+            var currentBlogArticle = allItems.BlogArticles.SingleOrDefault(x => x.BlogArticleId == TestingContext.BlogArticleId);
             var currentSections = currentBlogArticle.Sections;
 
             Assert.IsNotNull(currentBlogArticle);
@@ -133,12 +135,12 @@ namespace Bloggy.BehaviourTesting.StepDefinitions
         }
 
         [Then("The blog article with id (.*) and sectionId(.*) and paragraphId (.*) should reflect the updated info with paragraphTextArea set to (.*)")]
-        public void ThenTheBlogArticleShouldReflectTheUpdate(string id, string sectionId, string paragraphId, string paragraphTextArea)
+        public void ThenTheBlogArticleShouldReflectTheUpdate( string sectionId, string paragraphId, string paragraphTextArea)
         {
             response = "http://localhost:5000".AppendPathSegments("api", "v1", "blog-articles").GetJsonAsync().Result;
             allItems = JsonConvert.DeserializeObject<BlogArticlePackage>(response.Content.ReadAsStringAsync().Result);
 
-            var currentBlogArticle = allItems.BlogArticles.SingleOrDefault(x => x.BlogArticleId == Guid.Parse(id));
+            var currentBlogArticle = allItems.BlogArticles.SingleOrDefault(x => x.BlogArticleId == TestingContext.BlogArticleId);
             var currentSection = currentBlogArticle.Sections.SingleOrDefault(x => x.Paragraphs.Any(x  => x.ParagraphId == Guid.Parse(paragraphId)));
 
             Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);

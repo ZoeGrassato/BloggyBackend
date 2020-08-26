@@ -17,7 +17,7 @@ namespace Generics
         /// adds a new blog article to the system
         /// </summary>
         /// <param name="blogArticle"></param>
-        void Add(BlogArticleObj blogArticle);
+        BlogArticleObj Add(BlogArticleObj blogArticle);
 
         /// <summary>
         /// updates an existing blog article with new data based on a blog article id

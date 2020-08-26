@@ -117,5 +117,78 @@ namespace Bloggy.Backend.AutoMapper
             var final = mapper.Map<SubHeaderTransferObj, SubHeader>(source);
             return final;
         }
+
+        public BlogArticleTransferObj MapToBlogArticleTransferObj(BlogArticleObj blogArticleObj)
+        {
+            var final = new BlogArticleTransferObj()
+            {
+                ArticleId = blogArticleObj.BlogArticleId,
+                Title = blogArticleObj.Title,
+                Sections = MapToSectionTransferObj(blogArticleObj.Sections)
+            };
+
+            return final;
+        }
+
+        public List<SectionTransferObj> MapToSectionTransferObj(List<Section> sections)
+        {
+            var final = new List<SectionTransferObj>();
+            
+            foreach(var item in sections)
+            {
+                final.Add(new SectionTransferObj()
+                {
+                    BlogId = item.BlogId,
+                    SectionId = item.SectionId,
+                    Header = MapFromHeader(item.Header),
+                    SubHeader = MapFromSubheader(item.SubHeader),
+                    Paragraphs = MapFromParagraphs(item.Paragraphs)
+                });
+            }
+
+            return final;
+        }
+
+        public HeaderTransferObj MapFromHeader(Header headerViewModel)
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Header, HeaderTransferObj>();
+            });
+
+            IMapper mapper = config.CreateMapper();
+            var source = headerViewModel;
+            var final = mapper.Map<Header, HeaderTransferObj>(source);
+            return final;
+        }
+
+        public SubHeaderTransferObj MapFromSubheader(SubHeader subHeader)
+        {
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<SubHeader, SubHeaderTransferObj>();
+            });
+
+            IMapper mapper = config.CreateMapper();
+            var source = subHeader;
+            var final = mapper.Map<SubHeader, SubHeaderTransferObj>(source);
+            return final;
+        }
+
+        public List<ParagraphTransferObj> MapFromParagraphs(List<Paragraph> paragraphs)
+        {
+            var finalList = new List<ParagraphTransferObj>();
+            foreach (var item in paragraphs)
+            {
+                var current = new ParagraphTransferObj()
+                {
+                    ParagraphId = item.ParagraphId,
+                    ParagraphTextArea = item.ParagraphTextArea,
+                    SectionId = item.SectionId
+                };
+                finalList.Add(current);
+            }
+            return finalList;
+        }
     }
 }

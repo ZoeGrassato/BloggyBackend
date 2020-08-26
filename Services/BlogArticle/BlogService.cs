@@ -25,23 +25,23 @@ namespace Services
             _jsonMapping = new JsonMapping();
             _dbConnnection = dbConnection;
         }
-        public void Add(BlogArticleObj blogArticle)
+        public BlogArticleObj Add(BlogArticleObj blogArticle)
         {
-            var createdIds = new IdsForBlogArticlePackage(); // this is so we can return the id's of the items we have just added
-            var mappedBlogArticle = _accessObjectMapper.MapToBlogArticleAccessObj(blogArticle);
-            var mappedSections = new List<SectionJson>();
-            
             var blogUniqueIdentifier = Guid.NewGuid();
+            var mappedBlogArticle = _accessObjectMapper.MapToBlogArticleAccessObj(blogArticle);
+            var blogArticleObj = new BlogArticleObj() { Title = blogArticle.Title, BlogArticleId = blogUniqueIdentifier };
 
             //add mapped blog article
             _dbConnnection.AddBlogArticle(mappedBlogArticle, blogUniqueIdentifier);
-            createdIds.BlogArticleId = blogUniqueIdentifier;
 
             foreach (var item in blogArticle.Sections)
             {
                 var sectionUniqueIdentifier = Guid.NewGuid();
-                createdIds.SectionIds.Add(sectionUniqueIdentifier); //add the list of section IDs to map back to the API
-                createdIds.ParagraphIds.Add(item.SectionId, item.Paragraphs.Select(x => x.ParagraphId).ToList()); //add the dictionairy of paragraph IDs for each section
+
+                item.Paragraphs = _transferObjectMapper.MapSectionIdsForParagraph(item.Paragraphs, sectionUniqueIdentifier);
+                item.SectionId = sectionUniqueIdentifier;
+                item.BlogId = blogUniqueIdentifier;
+                blogArticleObj.Sections.Add(item);
 
                 //add mapped section
                 _dbConnnection.AddSection(_accessObjectMapper.MapToJsonSectionAccessObj(item), blogUniqueIdentifier);
@@ -52,6 +52,8 @@ namespace Services
                 //add mapped images for this section
                 _dbConnnection.AddImages(_accessObjectMapper.MapToImageAccessObj(item.Images));
             }
+
+            return blogArticleObj;
         }
         public void Delete(Guid blogArticleId)
         {

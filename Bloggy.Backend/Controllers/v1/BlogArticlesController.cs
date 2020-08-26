@@ -61,8 +61,10 @@ namespace Bloggy.Backend.Controllers.v1
                 throw new BloggyException("Requires at least one section and one title");
             }
             var mappedItem = _blogArticleMapping.MapToBlogArticle(blogArticleViewModel);
-            _blogService.Add(mappedItem);
-            return Created(string.Empty, blogArticleViewModel);
+            var blogArticle = _blogService.Add(mappedItem);
+            var mappedBlogArticle = _blogArticleMapping.MapToBlogArticleTransferObj(blogArticle);
+
+            return Created(string.Empty, mappedBlogArticle);
         }
 
         [HttpPut]
