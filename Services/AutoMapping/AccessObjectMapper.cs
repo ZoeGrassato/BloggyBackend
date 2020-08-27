@@ -16,7 +16,7 @@ namespace Services.Mapping
     {
         public BlogArticleAccessObj MapToBlogArticleAccessObj(BlogArticleObj blogArticleTransferObj)
         {
-            var final = new BlogArticleAccessObj() { BlogId = blogArticleTransferObj.BlogArticleId, Title = blogArticleTransferObj.Title };
+            var final = new BlogArticleAccessObj() { BlogId = blogArticleTransferObj.ArticleId, Title = blogArticleTransferObj.Title };
             //var config = new MapperConfiguration(cfg =>
             //{
             //    cfg.CreateMap<BlogArticleTransferObj, BlogArticleAccessObj>();

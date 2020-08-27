@@ -34,22 +34,33 @@ namespace Bloggy.Backend.Controllers.v1
         }
 
         [HttpGet]
-        public IActionResult ReadAll()
+        public HttpResponseMessage ReadAll()
         {
-            var items = _blogService.GetBlogArticles();
-            if(items.BlogArticles == null)
+            var blogArticlePackage = _blogService.GetBlogArticles();
+            if (blogArticlePackage.BlogArticles == null)
             {
                 throw new BloggyException("Items cannot be null");
             }
-            return Ok(items);
+            var mappedBlogArticlePackage = new BlogArticlePackageTransferObj();
+            mappedBlogArticlePackage.BlogArticles = new List<BlogArticleTransferObj>();
+
+            foreach (var item in blogArticlePackage.BlogArticles) mappedBlogArticlePackage.BlogArticles.Add(_blogArticleMapping.MapToBlogArticleTransferObj(item));
+
+            var response = new HttpResponseMessage(HttpStatusCode.OK);
+            response.Content = new StringContent(JsonConvert.SerializeObject(mappedBlogArticlePackage), Encoding.UTF8, "application/json");
+            return response;
         }
 
         [HttpGet("{id}")]
         public HttpResponseMessage Read(string id)
         {
-            var items = _blogService.GetBlogArticles();
+            var blogArticlePackage = _blogService.GetBlogArticles();
+            var mappedBlogArticlePackage = new BlogArticlePackageTransferObj();
+
+            foreach (var item in blogArticlePackage.BlogArticles) mappedBlogArticlePackage.BlogArticles.Add(_blogArticleMapping.MapToBlogArticleTransferObj(item));
+
             var response = new HttpResponseMessage(HttpStatusCode.OK);
-            response.Content = new StringContent(JsonConvert.SerializeObject(items), Encoding.UTF8, "application/json");
+            response.Content = new StringContent(JsonConvert.SerializeObject(mappedBlogArticlePackage), Encoding.UTF8, "application/json");
             return response;
         }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Bloggy.Backend.Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,5 +11,6 @@ namespace Bloggy.BehaviourTesting.Utils
         public static Guid BlogArticleId { get; set; }
         public static Guid SectionId { get; set; }
         public static Guid ParagraphId { get; set; }
+        public static BlogArticlePackageTransferObj AllBlogsObject { get; set; }
     }
 }

@@ -10,7 +10,7 @@ Scenario: As a user I create a blog article
 
 Scenario: As a user I update a blog article
 	#Given I am a user with access to bloggy # TODO: add authorization
-	Given I have a blog article with the id 0537b53f-67ab-4520-819d-394663934ddf and sectionId 5f89a27c-676c-4575-a03f-de6f091a5fa5
-	When I update the blog article with id 0537b53f-67ab-4520-819d-394663934ddf and sectionId 5f89a27c-676c-4575-a03f-de6f091a5fa5 and paragraphId 8622825b-b0e1-4d96-8ee5-6d449fab2873 and set paragraphTextArea to AGAINUPDATED
-	Then The blog article with id 0537b53f-67ab-4520-819d-394663934ddf and sectionId 5f89a27c-676c-4575-a03f-de6f091a5fa5 and paragraphId 8622825b-b0e1-4d96-8ee5-6d449fab2873 should reflect the updated info with paragraphTextArea set to AGAINUPDATED
+	Given I have a blog article with a blogArticle id and a sectionId
+	When I update the blog article with the blogArticle id and section id and paragraphId set paragraphTextArea to AGAINUPDATED 
+	Then The blog article with the blogArticle id and section id and paragraphId should reflect the updated info with paragraphTextArea set to AGAINUPDATED
 

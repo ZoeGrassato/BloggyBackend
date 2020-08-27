@@ -29,7 +29,7 @@ namespace Services
         {
             var blogUniqueIdentifier = Guid.NewGuid();
             var mappedBlogArticle = _accessObjectMapper.MapToBlogArticleAccessObj(blogArticle);
-            var blogArticleObj = new BlogArticleObj() { Title = blogArticle.Title, BlogArticleId = blogUniqueIdentifier };
+            var blogArticleObj = new BlogArticleObj() { Title = blogArticle.Title, ArticleId = blogUniqueIdentifier };
 
             //add mapped blog article
             _dbConnnection.AddBlogArticle(mappedBlogArticle, blogUniqueIdentifier);

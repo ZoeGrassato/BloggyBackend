@@ -85,15 +85,15 @@ namespace Bloggy.BehaviourTesting.Utils
             return rand.Next(0, 2) == 0;
         }
 
-        public static UpdateBlogArticleTransferObj CreateCustomBlogArticle(Guid blogArticleId, string sectionId, string paragraphId, string paragraphTextArea)
+        public static UpdateBlogArticleTransferObj CreateCustomBlogArticle(Guid blogArticleId, Guid sectionId, Guid paragraphId, string paragraphTextArea)
         {
             var paragraphs = new List<ParagraphTransferObj>()
             {
                 new ParagraphTransferObj()
                 {
-                    ParagraphId = Guid.Parse(paragraphId),
+                    ParagraphId = paragraphId,
                     ParagraphTextArea = paragraphTextArea,
-                    SectionId = Guid.Parse(sectionId)
+                    SectionId = sectionId
                 }
             };
 
@@ -101,7 +101,7 @@ namespace Bloggy.BehaviourTesting.Utils
             {
                 new SectionTransferObj()
                 {
-                    SectionId = Guid.Parse(sectionId),
+                    SectionId = sectionId,
                     BlogId = blogArticleId,
                     Paragraphs = paragraphs
                 }

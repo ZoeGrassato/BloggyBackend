@@ -18,7 +18,7 @@ namespace Bloggy.Backend.AutoMapper
             var finalItem = new BlogArticleObj()
             {
                 Title = blogArticleViewModel.Title,
-                BlogArticleId = blogArticleViewModel.ArticleId,
+                ArticleId = blogArticleViewModel.ArticleId,
                 Sections = MapSections(blogArticleViewModel.Sections)
             };
 
@@ -122,7 +122,7 @@ namespace Bloggy.Backend.AutoMapper
         {
             var final = new BlogArticleTransferObj()
             {
-                ArticleId = blogArticleObj.BlogArticleId,
+                ArticleId = blogArticleObj.ArticleId,
                 Title = blogArticleObj.Title,
                 Sections = MapToSectionTransferObj(blogArticleObj.Sections)
             };

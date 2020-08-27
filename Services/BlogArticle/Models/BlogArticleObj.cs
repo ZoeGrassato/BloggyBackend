@@ -6,7 +6,7 @@ namespace Services.BlogArticle.Models
 {
     public class BlogArticleObj
     {
-        public Guid BlogArticleId { get; set; }
+        public Guid ArticleId { get; set; }
         public List<Section> Sections = new List<Section>();
         public string Title { get; set; }
     }

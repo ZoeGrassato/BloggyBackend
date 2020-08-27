@@ -21,7 +21,7 @@ namespace Services.AutoMapping
             var final = new BlogArticlePackage() { BlogArticles = new List<BlogArticleObj>() };
             foreach(var blogArticle in blogArticles)
             {
-                blogArticle.Sections = MapParagraphsAndImagesForSection(sections.Where(x => x.BlogId == blogArticle.BlogArticleId).ToList(), paragraphs, images);
+                blogArticle.Sections = MapParagraphsAndImagesForSection(sections.Where(x => x.BlogId == blogArticle.ArticleId).ToList(), paragraphs, images);
                 final.BlogArticles.Add(blogArticle);
             }
             return final;
@@ -84,7 +84,7 @@ namespace Services.AutoMapping
             var final = new List<BlogArticleObj>();
             foreach(var item in blogArticles)
             {
-                final.Add(new BlogArticleObj() { BlogArticleId = item.BlogId, Sections = null, Title = item.Title });
+                final.Add(new BlogArticleObj() { ArticleId = item.BlogId, Sections = null, Title = item.Title });
             }
 
             return final;

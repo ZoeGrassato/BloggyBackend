@@ -19,9 +19,9 @@ namespace Services.AutoMapping.MappingProfiles
         private void Main()
         {
             CreateMap<BlogArticleAccessObj, BlogArticleObj>()
-            .ForMember(dest => dest.BlogArticleId, opt => opt.MapFrom(s => s.BlogId))
+            .ForMember(dest => dest.ArticleId, opt => opt.MapFrom(s => s.BlogId))
             .ReverseMap()
-             .ForMember(dest => dest.BlogId, opt => opt.MapFrom(s => s.BlogArticleId));
+             .ForMember(dest => dest.BlogId, opt => opt.MapFrom(s => s.ArticleId));
         }
 
         private void Section()
