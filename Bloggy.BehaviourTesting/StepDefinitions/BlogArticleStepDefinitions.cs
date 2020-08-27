@@ -21,6 +21,7 @@ namespace Bloggy.BehaviourTesting.StepDefinitions
         //all http requests are handled by the extension flurl
 
         private HttpResponseMessage response;
+        private HttpResponseMessage responseGetAll;
         private BlogArticleObj responseArticle;
         private BlogArticleTransferObj submissionArticle;
         private BlogArticlePackage allItems;
@@ -45,6 +46,8 @@ namespace Bloggy.BehaviourTesting.StepDefinitions
             Assert.AreEqual(title, responseArticle.Title);
 
             TestingContext.BlogArticleId = responseArticle.BlogArticleId;
+            TestingContext.SectionId = responseArticle.Sections[0].SectionId; //we only want to update the first section
+            TestingContext.ParagraphId = responseArticle.Sections[0].Paragraphs[0].ParagraphId; // and we only want to update the first paragraph
         }
 
         [Then("My blog article has (\\d*) sections with (\\d*) images and (\\d*) paragraphs each")]
@@ -130,15 +133,19 @@ namespace Bloggy.BehaviourTesting.StepDefinitions
         [When("I update the blog article with id (.*) and sectionId (.*) and paragraphId (.*) and set paragraphTextArea to (.*)")]
         public void WhenIUpdateABlogArticle(string blogArticleId, string sectionId, string paragraphId, string paragraphTextArea) 
         {
-            var model = BlogArticleUtils.CreateCustomBlogArticle(blogArticleId, sectionId, paragraphId, paragraphTextArea);
+            var model = BlogArticleUtils.CreateCustomBlogArticle(TestingContext.BlogArticleId, sectionId, paragraphId, paragraphTextArea);
             response = "http://localhost:5000".AppendPathSegments("api", "v1", "blog-articles").PutJsonAsync(model).Result;
         }
 
         [Then("The blog article with id (.*) and sectionId(.*) and paragraphId (.*) should reflect the updated info with paragraphTextArea set to (.*)")]
         public void ThenTheBlogArticleShouldReflectTheUpdate( string sectionId, string paragraphId, string paragraphTextArea)
         {
-            response = "http://localhost:5000".AppendPathSegments("api", "v1", "blog-articles").GetJsonAsync().Result;
-            allItems = JsonConvert.DeserializeObject<BlogArticlePackage>(response.Content.ReadAsStringAsync().Result);
+            responseGetAll = "http://localhost:5000".AppendPathSegments("api", "v1", "blog-articles").GetJsonAsync().Result;
+            allItems = JsonConvert.DeserializeObject<BlogArticlePackage>(responseGetAll.Content.ReadAsStringAsync().Result);
+
+            var currentItem = JsonConvert.DeserializeObject<UpdateBlogArticleTransferObj>(response.Content.ReadAsStringAsync().Result);
+
+            Assert.AreEqual(currentItem.ArticleId, TestingContext.BlogArticleId);
 
             var currentBlogArticle = allItems.BlogArticles.SingleOrDefault(x => x.BlogArticleId == TestingContext.BlogArticleId);
             var currentSection = currentBlogArticle.Sections.SingleOrDefault(x => x.Paragraphs.Any(x  => x.ParagraphId == Guid.Parse(paragraphId)));

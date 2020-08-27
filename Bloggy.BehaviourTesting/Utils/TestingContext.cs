@@ -8,5 +8,7 @@ namespace Bloggy.BehaviourTesting.Utils
     public static class TestingContext
     {
         public static Guid BlogArticleId { get; set; }
+        public static Guid SectionId { get; set; }
+        public static Guid ParagraphId { get; set; }
     }
 }
