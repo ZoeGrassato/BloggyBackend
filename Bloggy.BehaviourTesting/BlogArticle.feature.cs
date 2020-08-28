@@ -147,8 +147,8 @@ this.ScenarioInitialize(scenarioInfo);
                         "set paragraphTextArea to AGAINUPDATED", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 15
- testRunner.Then("The blog article with the blogArticle id and section id and paragraphId should re" +
-                        "flect the updated info with paragraphTextArea set to AGAINUPDATED", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("The blog article with the blogArticleId and sectionId and paragraphId should refl" +
+                        "ect the updated info with paragraphTextArea set to AGAINUPDATED", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();

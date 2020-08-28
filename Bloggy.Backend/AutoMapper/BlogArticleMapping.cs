@@ -19,7 +19,7 @@ namespace Bloggy.Backend.AutoMapper
             {
                 Title = blogArticleViewModel.Title,
                 ArticleId = blogArticleViewModel.ArticleId,
-                Sections = MapSections(blogArticleViewModel.Sections)
+                Sections = MapSections(blogArticleViewModel.Sections, blogArticleViewModel.ArticleId)
             };
 
             return finalItem;
@@ -31,7 +31,7 @@ namespace Bloggy.Backend.AutoMapper
             {
                 Title = blogArticleViewModel.Title,
                 BlogArticleId = blogArticleViewModel.ArticleId,
-                Sections = MapSections(blogArticleViewModel.Sections),
+                Sections = MapSections(blogArticleViewModel.Sections, blogArticleViewModel.ArticleId),
                 HasImageChanged = blogArticleViewModel.HasImageChanged,
                 HasParagraphChanged = blogArticleViewModel.HasParagraphChanged,
                 HasSectionChanged = blogArticleViewModel.HasSectionChanged,
@@ -41,7 +41,7 @@ namespace Bloggy.Backend.AutoMapper
             return finalItem;
         }
 
-        public List<Section> MapSections(List<SectionTransferObj> sectionViewModels)
+        public List<Section> MapSections(List<SectionTransferObj> sectionViewModels, Guid articleId)
         {
             var finalList = new List<Section>();
             foreach(var item in sectionViewModels)
@@ -52,8 +52,8 @@ namespace Bloggy.Backend.AutoMapper
                     SubHeader = MapSubheader(item.SubHeader),
                     Paragraphs = MapParagraphs(item.Paragraphs),
                     Images = MapImages(item.Images),
-                    SectionId = item.SectionId
-                    
+                    SectionId = item.SectionId,
+                    BlogId = articleId
                 };
                 finalList.Add(current);
             }

@@ -34,7 +34,7 @@ namespace Bloggy.Backend.Controllers.v1
         }
 
         [HttpGet]
-        public HttpResponseMessage ReadAll()
+        public IActionResult ReadAll()
         {
             var blogArticlePackage = _blogService.GetBlogArticles();
             if (blogArticlePackage.BlogArticles == null)
@@ -46,9 +46,7 @@ namespace Bloggy.Backend.Controllers.v1
 
             foreach (var item in blogArticlePackage.BlogArticles) mappedBlogArticlePackage.BlogArticles.Add(_blogArticleMapping.MapToBlogArticleTransferObj(item));
 
-            var response = new HttpResponseMessage(HttpStatusCode.OK);
-            response.Content = new StringContent(JsonConvert.SerializeObject(mappedBlogArticlePackage), Encoding.UTF8, "application/json");
-            return response;
+            return Ok(mappedBlogArticlePackage);
         }
 
         [HttpGet("{id}")]

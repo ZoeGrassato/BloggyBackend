@@ -1,10 +1,8 @@
-﻿using AutoMapper;
-using Generics;
+﻿using Generics;
 using Microsoft.Extensions.Logging;
 using Repositories.BlogArticle;
 using Services.AutoMapping;
 using Services.BlogArticle.Models;
-using Services.BlogArticle.Models.JsonMappingModels;
 using Services.Mapping;
 using System;
 using System.Collections.Generic;
@@ -14,7 +12,6 @@ namespace Services
 {
     public class BlogService : IBlogService
     {
-        private JsonMapping _jsonMapping;
         private AccessObjectMapper _accessObjectMapper = new AccessObjectMapper();
         private TransferObjectMapper _transferObjectMapper = new TransferObjectMapper();
         private IBlogArticleRepository _dbConnnection;
@@ -22,7 +19,6 @@ namespace Services
         public BlogService(ILogger<IBlogService> logger, IBlogArticleRepository dbConnection)
         {
             _logger = logger;
-            _jsonMapping = new JsonMapping();
             _dbConnnection = dbConnection;
         }
         public BlogArticleObj Add(BlogArticleObj blogArticle)
@@ -42,6 +38,9 @@ namespace Services
                 item.SectionId = sectionUniqueIdentifier;
                 item.BlogId = blogUniqueIdentifier;
                 blogArticleObj.Sections.Add(item);
+
+                //add a new ID for each paragraph
+                item.Paragraphs.Select(x => { x.ParagraphId = Guid.NewGuid(); return x; }).ToList();
 
                 //add mapped section
                 _dbConnnection.AddSection(_accessObjectMapper.MapToJsonSectionAccessObj(item), blogUniqueIdentifier);

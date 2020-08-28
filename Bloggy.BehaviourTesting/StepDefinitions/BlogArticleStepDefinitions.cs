@@ -131,18 +131,21 @@ namespace Bloggy.BehaviourTesting.StepDefinitions
             response = "http://localhost:5000".AppendPathSegments("api", "v1", "blog-articles").PutJsonAsync(model).Result;
         }
 
-        [Then("The blog article with the blogArticle id and section id and paragraphId should reflect the updated info with paragraphTextArea set to (.*)")]
-        public void ThenTheBlogArticleShouldReflectTheUpdate( string sectionId, string paragraphId, string paragraphTextArea)
+        [Then("The blog article with the blogArticleId and sectionId and paragraphId should reflect the updated info with paragraphTextArea set to (.*)")]
+        public void ThenTheBlogArticleShouldReflectTheUpdate(string paragraphTextArea)
         {
+            //after we have updated a record get an updated model of what getall looks like
+            TestingContext.AllBlogsObject = "http://localhost:5000".AppendPathSegments("api", "v1", "blog-articles").GetJsonAsync<BlogArticlePackageTransferObj>().Result;
+
             var currentItem = JsonConvert.DeserializeObject<UpdateBlogArticleTransferObj>(response.Content.ReadAsStringAsync().Result);
 
             Assert.AreEqual(currentItem.ArticleId, TestingContext.BlogArticleId);
 
             var currentBlogArticle = TestingContext.AllBlogsObject.BlogArticles.SingleOrDefault(x => x.ArticleId == TestingContext.BlogArticleId);
-            var currentSection = currentBlogArticle.Sections.SingleOrDefault(x => x.Paragraphs.Any(x  => x.ParagraphId == Guid.Parse(paragraphId)));
+            var currentSection = currentBlogArticle.Sections.SingleOrDefault(x => x.Paragraphs.Any(x  => x.ParagraphId == TestingContext.ParagraphId));
 
             Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
-            Assert.AreEqual(paragraphTextArea, currentSection.Paragraphs.SingleOrDefault(x => x.ParagraphId == Guid.Parse(paragraphId)).ParagraphTextArea);
+            Assert.AreEqual(paragraphTextArea, currentSection.Paragraphs.SingleOrDefault(x => x.ParagraphId == TestingContext.ParagraphId).ParagraphTextArea);
         }
     }
 }
