@@ -147,5 +147,30 @@ namespace Bloggy.BehaviourTesting.StepDefinitions
             Assert.AreEqual(response.StatusCode, HttpStatusCode.OK);
             Assert.AreEqual(paragraphTextArea, currentSection.Paragraphs.SingleOrDefault(x => x.ParagraphId == TestingContext.ParagraphId).ParagraphTextArea);
         }
+
+
+        //DELETE blog article
+        [Given("I have a blog article with a blogArticleId")]
+        public void GivenIHaveABlogArticleToDelete()
+        {
+            TestingContext.AllBlogsObject = "http://localhost:5000".AppendPathSegments("api", "v1", "blog-articles").GetJsonAsync<BlogArticlePackageTransferObj>().Result;
+            var currentBlogArticle = TestingContext.AllBlogsObject.BlogArticles.SingleOrDefault(x => x.ArticleId == TestingContext.BlogArticleId);
+
+            Assert.IsNotNull(currentBlogArticle);
+        }
+
+        [When("I delete the blog article with the blogArticleId")]
+        public void WhenIDeleteTheBlogArticle()
+        {
+            response = "http://localhost:5000".AppendPathSegments("api", "v1", "blog-articles", TestingContext.BlogArticleId.ToString()).DeleteAsync().Result;
+
+            Assert.AreEqual(response.StatusCode, HttpStatusCode.NoContent);
+
+            TestingContext.AllBlogsObject = "http://localhost:5000".AppendPathSegments("api", "v1", "blog-articles").GetJsonAsync<BlogArticlePackageTransferObj>().Result;
+            //var currentBlogArticle = TestingContext.AllBlogsObject.BlogArticles.SingleOrDefault(x => x.ArticleId == TestingContext.BlogArticleId);
+
+            ////ensure entry does not exist
+            //Assert.IsNull(currentBlogArticle);
+        }
     }
 }

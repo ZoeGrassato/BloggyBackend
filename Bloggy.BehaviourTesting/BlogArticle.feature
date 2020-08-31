@@ -14,3 +14,8 @@ Scenario: As a user I update a blog article
 	When I update the blog article with the blogArticle id and section id and paragraphId set paragraphTextArea to AGAINUPDATED 
 	Then The blog article with the blogArticleId and sectionId and paragraphId should reflect the updated info with paragraphTextArea set to AGAINUPDATED
 
+Scenario: As a user I delete a blog article
+    Given I have a blog article with a blogArticleId
+	When I delete the blog article with the blogArticleId
+	Then That blog article should no longer exist
+

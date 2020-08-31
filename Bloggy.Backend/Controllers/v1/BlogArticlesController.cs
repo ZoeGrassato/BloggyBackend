@@ -77,7 +77,7 @@ namespace Bloggy.Backend.Controllers.v1
         }
 
         [HttpPut]
-        public IActionResult Update(UpdateBlogArticleTransferObj blogArticleViewModel)
+        public IActionResult Update([FromBody] UpdateBlogArticleTransferObj blogArticleViewModel)
         {
             if (blogArticleViewModel.Validate())
             {
@@ -86,6 +86,14 @@ namespace Bloggy.Backend.Controllers.v1
             var mappedItem = _blogArticleMapping.MapToUpdateBlogArticle(blogArticleViewModel);
             _blogService.Update(mappedItem);
             return Ok(blogArticleViewModel);
+        }
+
+        [HttpDelete("{blogArticleId}")]
+        public IActionResult Delete([FromRoute] Guid blogArticleId)
+        {
+            _blogService.Delete(blogArticleId);
+
+            return NoContent();
         }
     }
 }
