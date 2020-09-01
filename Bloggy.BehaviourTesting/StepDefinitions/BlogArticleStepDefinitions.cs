@@ -167,10 +167,15 @@ namespace Bloggy.BehaviourTesting.StepDefinitions
             Assert.AreEqual(response.StatusCode, HttpStatusCode.NoContent);
 
             TestingContext.AllBlogsObject = "http://localhost:5000".AppendPathSegments("api", "v1", "blog-articles").GetJsonAsync<BlogArticlePackageTransferObj>().Result;
-            //var currentBlogArticle = TestingContext.AllBlogsObject.BlogArticles.SingleOrDefault(x => x.ArticleId == TestingContext.BlogArticleId);
+        }
 
-            ////ensure entry does not exist
-            //Assert.IsNull(currentBlogArticle);
+        [Then("That blog article should no longer exist")]
+        public void ThenThatBlogArticleShouldntExist()
+        {
+            var currentBlogArticle = TestingContext.AllBlogsObject.BlogArticles.SingleOrDefault(x => x.ArticleId == TestingContext.BlogArticleId);
+
+            //ensure article does not exist
+            Assert.IsNull(currentBlogArticle);
         }
     }
 }
