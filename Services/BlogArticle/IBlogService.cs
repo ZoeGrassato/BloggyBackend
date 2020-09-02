@@ -31,5 +31,12 @@ namespace Generics
         /// </summary>
         /// <param name="blogArticleId"></param>
         void Delete(Guid blogArticleId);
+
+        /// <summary>
+        /// retrieves all the nested ids for that blogArticle, in order to delete them
+        /// </summary>
+        /// <param name="blogArticleId"></param>
+        /// <returns></returns>
+        DeletionIdsSectionAndParagraph RetrieveAllNestedIdsForDeletion(Guid blogArticleId);
     }
 }

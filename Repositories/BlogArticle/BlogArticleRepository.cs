@@ -100,24 +100,77 @@ namespace Repositories.BlogArticle
             }
         }
 
-        public void DeleteBlogArticle(Guid blogArticleId, Guid sectionId)
+        public void DeleteBlogArticle(Guid blogArticleId)
         {
             var parameter = new DynamicParameters();
             string connectionString = "UserID=postgres;Password=unearth_Anubis5;Host=localhost;Port=5432;Database=BloggyData;";
 
             string blogArticleQuery = "DELETE FROM blogarticle WHERE BlogId = @BlogId";
-            string sectionQuery = "DELETE FROM dbo.section WHERE BlogId = @BlogId";
-            string paragraphQuery = "DELETE FROM dbo.paragraph WHERE SectionId = @SectionId";
 
             using (var connection = new NpgsqlConnection(connectionString))
             {
                 try
                 {
-
+                    var affectedRows = connection.Execute(blogArticleQuery, new
+                    {
+                        BlogId = blogArticleId
+                    });
                 }
                 catch (Exception ex)
                 {
                     throw new GeneralDatabaseException("A Db related error occured when trying to run your query", ex);
+                }
+            }
+        }
+
+        public void DeleteSections(List<Guid> sectionIds)
+        {
+            var parameter = new DynamicParameters();
+            string connectionString = "UserID=postgres;Password=unearth_Anubis5;Host=localhost;Port=5432;Database=BloggyData;";
+
+            string blogArticleQuery = "DELETE FROM section WHERE SectionId = @SectionId";
+
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                foreach(var sectionId in sectionIds)
+                {
+                    try
+                    {
+                        var affectedRows = connection.Execute(blogArticleQuery, new
+                        {
+                            SectionId = sectionId
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new GeneralDatabaseException("A Db related error occured when trying to run your query", ex);
+                    }
+                }
+            }
+        }
+
+        public void DeleteParagraphs(List<Guid> paragraphIds)
+        {
+            var parameter = new DynamicParameters();
+            string connectionString = "UserID=postgres;Password=unearth_Anubis5;Host=localhost;Port=5432;Database=BloggyData;";
+
+            string blogArticleQuery = "DELETE FROM paragraph WHERE ParagraphId = @ParagraphId";
+
+            using (var connection = new NpgsqlConnection(connectionString))
+            {
+                foreach (var paragraphId in paragraphIds)
+                {
+                    try
+                    {
+                        var affectedRows = connection.Execute(blogArticleQuery, new
+                        {
+                            ParagraphId = paragraphId
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new GeneralDatabaseException("A Db related error occured when trying to run your query", ex);
+                    }
                 }
             }
         }

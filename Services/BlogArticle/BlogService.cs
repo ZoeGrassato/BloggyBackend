@@ -56,7 +56,26 @@ namespace Services
         }
         public void Delete(Guid blogArticleId)
         {
-            _dbConnnection.DeleteBlogArticle(blogArticleId, Guid.NewGuid());
+            var relevantIdsToDelete = RetrieveAllNestedIdsForDeletion(blogArticleId);
+            _dbConnnection.DeleteBlogArticle(blogArticleId);
+            _dbConnnection.DeleteParagraphs(relevantIdsToDelete.RelevantParagraphIds);
+            _dbConnnection.DeleteSections(relevantIdsToDelete.RelevantSectionIds);
+        }
+
+        public DeletionIdsSectionAndParagraph RetrieveAllNestedIdsForDeletion(Guid blogArticleId)
+        {
+            var listOfRelevantSectionIds = _dbConnnection.GetAllSections().Where(x => x.BlogId == blogArticleId).Select(x => x.SectionId).ToList();
+            var listOfRelevantParagraphIds = new List<Guid>();
+            var allParagraphs = _dbConnnection.GetAllParagraphs().ToList().Select(x => x.ParagraphId);
+            var final = new DeletionIdsSectionAndParagraph() { RelevantParagraphIds = listOfRelevantParagraphIds, RelevantSectionIds = listOfRelevantSectionIds };
+
+            foreach (var currentSectionId in listOfRelevantSectionIds)
+            {
+                var paragraphsForCurrentSection = allParagraphs.Where(x => x == currentSectionId).ToList();
+                paragraphsForCurrentSection.ForEach(x => listOfRelevantParagraphIds.Add(x));
+            }
+
+            return final;
         }
 
         public BlogArticlePackage GetBlogArticles()
