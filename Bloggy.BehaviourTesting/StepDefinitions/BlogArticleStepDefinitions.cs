@@ -91,21 +91,6 @@ namespace Bloggy.BehaviourTesting.StepDefinitions
                 var subHeadingDataExists = submissionArticle.Sections
                   .Select(section => section.SubHeader.SubHeaderText)
                   .Contains(section.SubHeader.SubHeaderText);
-
-                foreach (var paragraph in section.Paragraphs)
-                {
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(paragraph.SectionId.ToString()));
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(paragraph.ParagraphId.ToString()));
-
-                    Assert.IsFalse(string.IsNullOrWhiteSpace(paragraph.ParagraphTextArea));
-
-                    var pargraphDataExists = submissionArticle.Sections
-                        .SelectMany(section => section.Paragraphs)
-                        .Select(paragraph => paragraph.ParagraphTextArea)
-                        .Contains(paragraph.ParagraphTextArea);
-
-                    Assert.IsTrue(pargraphDataExists);
-                }
             }
         }
 
