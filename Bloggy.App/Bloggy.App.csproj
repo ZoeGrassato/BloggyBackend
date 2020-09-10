@@ -4,4 +4,13 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="bloggy.app\**" />
+    <Compile Remove="node_modules\**" />
+    <EmbeddedResource Remove="bloggy.app\**" />
+    <EmbeddedResource Remove="node_modules\**" />
+    <None Remove="bloggy.app\**" />
+    <None Remove="node_modules\**" />
+  </ItemGroup>
+
 </Project>
